@@ -1,8 +1,11 @@
+In logical but not necessarily chronological order:
+
 1. Design
-2. Baseline
-3. Phonetic analysis
-4. Phonetic sentence synthesis
-5. Syntactic filter
-6. Semantic filter
-7. Evaluator
-8. Report
+2. Baseline creator
+3. Trainer with hyperparameters
+4. Phonetic analysis
+5. Phonetic sentence synthesis
+6. Syntactic filter
+7. Semantic filter
+8. Evaluator
+9. Report
