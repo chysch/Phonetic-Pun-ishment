@@ -1,11 +1,42 @@
 In logical but not necessarily chronological order:
 
 1. Design
-2. Baseline creator
-3. Trainer with hyperparameters
-4. Phonetic analysis
-5. Phonetic sentence synthesis
-6. Syntactic filter
-7. Semantic filter
-8. Evaluator
-9. Report
+2. Data creation, finding and arranging
+    2.1. Phonetic dictionary + Custom word supplement (DICT files)
+    2.2. Synonym collection (NYM file)
+    2.3. TEST file
+    2.4. Hyperparameter data files (RULE files)
+3. Baseline creator
+        INPUT: TEST file
+        OUTPUT: PARSED file
+4. Trainer with hyperparameters
+        INPUT: DICT files + RULE file
+        OUTPUT: FORE file + BACK file
+5. Phonetic analysis
+        INPUT: TEST file + FORE file
+        OUTPUT: PHON file
+6. Phonetic sentence synthesis
+        INPUT: PHON file + BACK file
+        OUTPUT: RAW file
+7. Syntactic filter
+        INPUT: 
+        OUTPUT: 
+8. Semantic filter
+        INPUT: 
+        OUTPUT: 
+9. Evaluator
+        INPUT: PARSED file
+        OUTPUT: EVAL file
+10. Report
+
+File formats:
+    DICT:
+    NYM:
+    RULE:
+    TEST:
+    PARSED:
+    FORE:
+    BACK:
+    PHON:
+    RAW:
+    
