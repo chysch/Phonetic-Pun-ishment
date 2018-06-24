@@ -1,6 +1,7 @@
 To make the pseudo code easier to read each variable name starts with $.
 
-Stage 1: Create Phonetic Tree                                               CreatePhonTree($back)
+Stage 1: Create Phonetic Tree
+CreatePhonTree($back):
         INPUT: BACK file
         OUTPUT: Tree with phonemes as nodes and words as leaves
     $T <- Tree()
@@ -16,18 +17,34 @@ Stage 1: Create Phonetic Tree                                               Crea
         $T_run.add_child($word)
     return $T
 
-Stage 2: Create phonetically similar sentences                      Synthesize($T, $phon_sentence, $current, $more_phon_sentences)
-        INPUT: $T, $phon_sentence, $current, ref $more_phon_sentences 
-        OUTPUT: already in input...
-    TODO: complete
-    
 
-Stage 3: Parse PHON file                                                    Parse($phon, $back)
+Stage 2: Create phonetically similar sentences
+Synthesize($T, $phon_sentence, $current, $sentence, ref $more_phon_sentences):
+        INPUT: $T, $phon_sentence, $current, $sentence, ref $more_phon_sentences 
+        OUTPUT: already in input...
+    if $current > length($phon_sentence) then:
+        if $sentence not in $more_phon_sentences then:
+            add $sentence to $more_phon_sentences
+        return
+    if $T.children has leaves then:
+        for $word in $T.children leaves do:
+            $next <- $sentence
+            add $word to $next
+            Synthesize($T.head, $phon_sentence, $current, $next, $more_phon_sentences)
+    if $phon_sentence[$current] in $T.children then:
+        Synthesize($T.child[$phon_sentence[$current]], $phon_sentence, \
+                   $current + 1, $next, $more_phon_sentences)
+    return
+
+
+Stage 3: Parse PHON file
+Parse($phon, $back):
         INPUT: PHON file, BACK file
         OUTPUT: RAW file
     $T <- CreatePhonTree($back)
     $lines <- $phon lines
     $output <- List()
+    $sentence <- empty sentence
     for each $line in $lines do:
-        tuple($line, Synthesize($T, $line, 0, $output))
+        tuple($line, Synthesize($T, $line, 0, $sentence, $output))
     write $output to RAW file according to assigned format (TODO: define...)
