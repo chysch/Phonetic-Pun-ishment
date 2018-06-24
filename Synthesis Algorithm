@@ -1,0 +1,33 @@
+To make the pseudo code easier to read each variable name starts with $.
+
+Stage 1: Create Phonetic Tree                                               CreatePhonTree($back)
+        INPUT: BACK file
+        OUTPUT: Tree with phonemes as nodes and words as leaves
+    $T <- Tree()
+    $lines <- $back lines
+    for each $line in $lines do:
+        $word <- the word from $line
+        $phonemes <- the phoneme list from $line (retain order)
+        $T_run <- $T.head
+        for each $phoneme in $phonemes do:
+            if $phoneme not in $T_run.children then:
+                $T_run.add_child($phoneme)
+            $T_run <- $T_run.child($phoneme)
+        $T_run.add_child($word)
+    return $T
+
+Stage 2: Create phonetically similar sentences                      Synthesize($T, $phon_sentence, $current, $more_phon_sentences)
+        INPUT: $T, $phon_sentence, $current, ref $more_phon_sentences 
+        OUTPUT: already in input...
+    TODO: complete
+    
+
+Stage 3: Parse PHON file                                                    Parse($phon, $back)
+        INPUT: PHON file, BACK file
+        OUTPUT: RAW file
+    $T <- CreatePhonTree($back)
+    $lines <- $phon lines
+    $output <- List()
+    for each $line in $lines do:
+        tuple($line, Synthesize($T, $line, 0, $output))
+    write $output to RAW file according to assigned format (TODO: define...)
