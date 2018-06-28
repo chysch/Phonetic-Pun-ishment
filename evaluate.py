@@ -15,6 +15,5 @@ if __name__ == '__main__':
 
     if len(sys.argv) != 4:
         print("Usage: <output name> <PARSED file>")
-        exit()
-    
-    Evaluate(sys.argv[1], sys.argv[2])
+    else:
+        Evaluate(sys.argv[1], sys.argv[2])

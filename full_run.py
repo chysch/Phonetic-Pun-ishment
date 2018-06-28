@@ -24,6 +24,5 @@ if __name__ == '__main__':
 
     if len(sys.argv) < 5:
         print("Usage: <output name> <TEST file> <RULE file> <DICT files...>")
-        exit()
-    
-    Run(sys.argv[1], sys.argv[2], sys.argv[3], list(sys.argv[4:]))
+    else:
+        Run(sys.argv[1], sys.argv[2], sys.argv[3], list(sys.argv[4:]))

@@ -15,6 +15,5 @@ if __name__ == '__main__':
 
     if len(sys.argv) < 4:
         print("Usage: <output name> <RULE file> <DICT files...>")
-        exit()
-    
-    Train(sys.argv[1], sys.argv[2], list(sys.argv[3:]))
+    else:
+        Train(sys.argv[1], sys.argv[2], list(sys.argv[3:]))
