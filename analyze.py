@@ -1,7 +1,7 @@
 import sys
 
-def Analize(output, test, fore):
-    print("Analizing...")
+def Analyze(output, test, fore):
+    print("Analyzing...")
     #TODO: Implement...
 
 
@@ -16,4 +16,4 @@ if __name__ == '__main__':
     if len(sys.argv) != 4:
         print("Usage: <output name> <TEST file> <FORE file>")
     else:
-        Analize(sys.argv[1], sys.argv[2], sys.argv[3])
+        Analyze(sys.argv[1], sys.argv[2], sys.argv[3])
