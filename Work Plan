@@ -29,14 +29,75 @@ In logical but not necessarily chronological order:
         OUTPUT: EVAL file
 10. Report                                                                  Together
 
+
 File formats:
+
     DICT:
+        Every row is one word.
+        ([.])?([A-Z]|[-])+(\([0-9]\))?(\t)([phoneme])([ ][phoneme])*
+        Explanation: 
+            The row has the word and one or more phonemes.
+            Between the word and the phonemes there is a tab.
+            The phonemes are seperated by spaces.
+            The word is uppercase with an option for a symbol preceding and contained hyphens.
+            If there is more than one pronounciation for a word, there are round brackets after the word containing
+            the number entry for the word for all but the first entry for that word.
+
     NYM:
+
     RULE:
-    TEST:
-    PARSED:
-    FORE:
-    BACK:
-    PHON:
-    RAW:
+        Every row is one rule.
+        ([rule])([,])([place])([:])([phoneme])([ ][phoneme])*([,])([phoneme])([ ][phoneme])*
+        Explanation:
+            The row has a rule, the place in the word to apply the rule and the phonemes the rule applies to.
+            Between the word and the place is a comma.
+            Between the place and the phonemes is a colon.
+            The phonemes are in two groups of one or more phonemes each. 
+            The groups are seperated by a comma, the phonemes are seperated by spaces.
+        Rules:
+            Replace - Replaces a set of phonemes with a different set of phonemes.
+        Places:
+            Start - The beginning of the word.
+            Any - Any place in the word.
+            End - The end of the word.
     
+    TEST:
+        Every row is one sentence in uppercase without punctuation.
+    
+    PARSED:
+        For every sentence there are the following rows:
+            1. The sentence in uppercase without punctuation.
+            2. The phonemes matching the sentence.
+            3. An integer (S) representing the amount of "correct" homophonic sentence matches found for the sentence.
+            4-(S+4). The "correct" homophonic sentence matches found for the sentence.
+            S+5. An empty row.
+    
+    FORE:
+        Every row is one word preceding its phonetic build.
+        ([.])?([A-Z]|[-])+(\t)([phoneme])([ ][phoneme])*
+        Explanation: 
+            The row has the word and one or more phonemes.
+            Between the word and the phonemes there is a tab.
+            The phonemes are seperated by spaces.
+            The word is uppercase with an option for a symbol preceding and contained hyphens.
+    
+    BACK:
+        Every row is one word preceded by its phonetic build.
+        ([phoneme])([ ][phoneme])*(\t)([.])?([A-Z]|[-])+
+        Explanation: 
+            The row has the word and one or more phonemes.
+            Between the word and the phonemes there is a tab.
+            The phonemes are seperated by spaces.
+            The word is uppercase with an option for a symbol preceding and contained hyphens.
+    
+    PHON:
+        Every row is one sentence in uppercase without punctuation and its phonetic build.
+        The sentence and the list of phonemes are seperated by a tab.
+    
+    RAW:
+        For every sentence there are the following rows:
+            1. The sentence in uppercase without punctuation.
+            2. The phonemes matching the sentence.
+            3. An integer (R) representing the amount of homophonic sentence matches found for the sentence.
+            4-(R+4). The homophonic sentence matches found for the sentence.
+            R+5. An empty row.
