@@ -67,10 +67,9 @@ File formats:
     PARSED:
         For every sentence there are the following rows:
             1. The sentence in uppercase without punctuation.
-            2. The phonemes matching the sentence.
-            3. An integer (S) representing the amount of "correct" homophonic sentence matches found for the sentence.
-            4-(S+4). The "correct" homophonic sentence matches found for the sentence.
-            S+5. An empty row.
+            2. An integer (S) representing the amount of "correct" homophonic sentence matches found for the sentence.
+            3-(S+3). The "correct" homophonic sentence matches found for the sentence.
+            S+4. An empty row.
     
     FORE:
         Every row is one word preceding its phonetic build.
@@ -91,13 +90,15 @@ File formats:
             The word is uppercase with an option for a symbol preceding and contained hyphens.
     
     PHON:
-        Every row is one sentence in uppercase without punctuation and its phonetic build.
-        The sentence and the list of phonemes are seperated by a tab.
+        For every sentence there are the following rows:
+            1. The sentence in uppercase without punctuation.
+            2. An integer (P) representing the amount of phoneme list matches found for the sentence.
+            3-(P+3). The phonemes matching the sentence.
+            P+4. An empty row.
     
     RAW:
         For every sentence there are the following rows:
             1. The sentence in uppercase without punctuation.
-            2. The phonemes matching the sentence.
-            3. An integer (R) representing the amount of homophonic sentence matches found for the sentence.
-            4-(R+4). The homophonic sentence matches found for the sentence.
-            R+5. An empty row.
+            2. An integer (R) representing the amount of homophonic sentence matches found for the sentence.
+            3-(R+3). The homophonic sentence matches found for the sentence.
+            R+4. An empty row.
