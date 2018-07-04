@@ -51,7 +51,9 @@ def GetLists(data):
         d = d.join(entry[1])
         fore = entry[0] + '\t' + d + '\n'
         back = d + '\t' + entry[0] + '\n'
-        res[0].append(fore)
-        res[1].append(back)
+        if not fore in res[0]:
+            res[0].append(fore)
+        if not back in res[1]:
+            res[1].append(back)
     return res
 
