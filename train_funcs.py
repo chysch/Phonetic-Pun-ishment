@@ -45,15 +45,16 @@ def PrepareList(dict_lines):
     return res
 
 def GetLists(data):
-    res = ([],[])
+    res = [[],[]]
     for entry in data:
         d = ' '
         d = d.join(entry[1])
         fore = entry[0] + '\t' + d + '\n'
         back = d + '\t' + entry[0] + '\n'
-        if not fore in res[0]:
-            res[0].append(fore)
-        if not back in res[1]:
-            res[1].append(back)
+        res[0].append(fore)
+        res[1].append(back)
+    res[0] = list(set(res[0]))
+    res[1] = list(set(res[1]))
+    res = tuple(res)
     return res
 

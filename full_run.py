@@ -1,6 +1,6 @@
 import sys
 import train
-import analize
+import analyze
 import synthesize
 import clean
 import evaluate
@@ -8,7 +8,7 @@ import evaluate
 def Run(output, test, rule, dicts):
     print("Running...")
     train.Train(output, rule, dicts)
-    analize.Analize(output, test, output + '.fore')
+    analyze.Analyze(output, test, output + '.fore')
     synthesize.Synthesize(output, output + '.phon', output + '.back')
     clean.Clean(output, output + '.raw')
     evaluate.Evaluate(output, output + '.parsed')

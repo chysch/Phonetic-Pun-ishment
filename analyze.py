@@ -1,8 +1,27 @@
 import sys
+from analyze_funcs import *
 
 def Analyze(output, test, fore):
     print("Analyzing...")
-    #TODO: Implement...
+
+    test_file = open(test, 'r')
+    test_lines = test_file.readlines()
+    test_file.close()
+
+    fore_file = open(fore, 'r')
+    fore_lines = fore_file.readlines()
+    fore_file.close()
+
+    fore_data = PrepareForeData(fore_lines)
+
+    phon_lines = []
+    for line in test_lines:
+        phon_lines = phon_lines + \
+                     AnalyzeLine(fore_data, line)
+
+    phon_file = open(output + '.phon', 'w')
+    phon_file.writelines(phon_lines)
+    phon_file.close()
 
 
 if __name__ == '__main__':
