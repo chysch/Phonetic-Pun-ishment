@@ -1,8 +1,30 @@
 import sys
+from clean_funcs import *
 
 def Clean(output, raw):
     print("Filtering...")
-    #TODO: Implement...
+
+    raw_file = open(raw, 'r')
+    raw_lines = raw_file.readlines()
+    raw_file.close()
+
+    raw_data = PrepareRawData(raw_lines)
+
+    parsed_lines = []
+    for pair in raw_data:
+        parsed_lines.append(pair[0])
+        matches = []
+        for match in pair[1]:
+            if CanPunctuate(match):
+                matches = matches + GetPunctuations(match)
+        matches = list(set(matches))
+        parsed_lines.append(str(len(matches)) + '\n')
+        parsed_lines = parsed_lines + matches
+        parsed_lines.append('\n')
+
+    parsed_file = open(output + '.parsed', 'w')
+    parsed_file.writelines(parsed_lines)
+    parsed_file.close()
 
 
 if __name__ == '__main__':
