@@ -1,8 +1,34 @@
 import sys
+from synthesize_funcs import *
 
 def Synthesize(output, phon, back):
     print("Synthesizing...")
-    #TODO: Implement...
+
+    phon_file = open(phon, 'r')
+    phon_lines = phon_file.readlines()
+    phon_file.close()
+
+    back_file = open(back, 'r')
+    back_lines = back_file.readlines()
+    back_file.close()
+
+    back_data = PrepareBackData(back_lines)
+    phon_data = PreparePhonData(phon_lines)
+
+    raw_lines = []
+    for pair in phon_data:
+        raw_lines.append(pair[0])
+        matches = []
+        for d in pair[1]:
+            matches = matches + GetMatches(d, back_data)
+        matches = list(set(matches))
+        raw_lines.append(str(len(matches)) + '\n')
+        raw_lines = raw_lines + matches
+        raw_lines.append('\n')
+
+    raw_file = open(output + '.raw', 'w')
+    raw_file.writelines(raw_lines)
+    raw_file.close()
 
 
 if __name__ == '__main__':
