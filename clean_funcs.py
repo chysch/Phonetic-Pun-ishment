@@ -1,3 +1,5 @@
+# Creates a sentence match list from the lines of a
+# sentence output file.
 def PrepareRawData(raw_lines):
     res = []
     i = 0
@@ -16,10 +18,14 @@ def PrepareRawData(raw_lines):
         i = i + num + 1
     return res
 
+# Returns True if a given list of words can be punctuated
+# correctly and logically and False otherwise.
 def CanPunctuate(match):
     res = False
     return res
 
+# Returns a list of correctly punctuated sentences for a
+# given unpunctuated sentence.
 def GetPunctuations(match):
     res = []
     return res

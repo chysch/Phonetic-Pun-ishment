@@ -1,9 +1,12 @@
 import sys
 from synthesize_funcs import *
 
+# Runs the main synthesis module which finds phonetic
+# matches for the test data.
 def Synthesize(output, phon, back):
     print("Synthesizing...")
 
+    # Organize input
     phon_file = open(phon, 'r')
     phon_lines = phon_file.readlines()
     phon_file.close()
@@ -15,6 +18,7 @@ def Synthesize(output, phon, back):
     back_data = PrepareBackData(back_lines)
     phon_data = PreparePhonData(phon_lines)
 
+    # Create data
     raw_lines = []
     for pair in phon_data:
         raw_lines.append(pair[0])
@@ -26,11 +30,13 @@ def Synthesize(output, phon, back):
         raw_lines = raw_lines + matches
         raw_lines.append('\n')
 
+    # Output
     raw_file = open(output + '.raw', 'w')
     raw_file.writelines(raw_lines)
     raw_file.close()
 
-
+# If this module is the main running module make sure
+# the arguments are valid.
 if __name__ == '__main__':
     # Get command line arguments and allow for IDLE manual
     # argument input.

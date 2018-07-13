@@ -1,9 +1,12 @@
 import sys
 from analyze_funcs import *
 
+# Runs the analysis module which translates the test data
+# into its phonetic structure.
 def Analyze(output, test, fore):
     print("Analyzing...")
 
+    # Organize input
     test_file = open(test, 'r')
     test_lines = test_file.readlines()
     test_file.close()
@@ -14,16 +17,19 @@ def Analyze(output, test, fore):
 
     fore_data = PrepareForeData(fore_lines)
 
+    # Create data
     phon_lines = []
     for line in test_lines:
         phon_lines = phon_lines + \
                      AnalyzeLine(fore_data, line)
 
+    # Output
     phon_file = open(output + '.phon', 'w')
     phon_file.writelines(phon_lines)
     phon_file.close()
 
-
+# If this module is the main running module make sure
+# the arguments are valid.
 if __name__ == '__main__':
     # Get command line arguments and allow for IDLE manual
     # argument input.

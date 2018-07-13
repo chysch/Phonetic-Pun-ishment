@@ -5,6 +5,7 @@ import synthesize
 import clean
 import evaluate
 
+# Run core functions from project modules
 def Run(output, test, rule, dicts):
     print("Running...")
     train.Train(output, rule, dicts)
@@ -13,7 +14,8 @@ def Run(output, test, rule, dicts):
     clean.Clean(output, output + '.raw')
     evaluate.Evaluate(output, output + '.parsed')
 
-
+# If this module is the main running module make sure
+# the arguments are valid.
 if __name__ == '__main__':
     # Get command line arguments and allow for IDLE manual
     # argument input.

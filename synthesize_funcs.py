@@ -1,5 +1,8 @@
 from tree import *
 
+# Parses the phonemes and the words they represent into
+# a tree where the inner nodes are phonemes and the
+# leaves are words.
 def PrepareBackData(back_lines):
     res = Tree()
     res.head.label = 'back_data'
@@ -13,7 +16,9 @@ def PrepareBackData(back_lines):
         c = c.Child(w)
         c.data.type = 'word'
     return res
-    
+
+# Creates a phonetic match list from the lines of a
+# phonetic output file.
 def PreparePhonData(phon_lines):
     res = []
     i = 0
@@ -32,6 +37,13 @@ def PreparePhonData(phon_lines):
         i = i + num + 1
     return res
 
+# Recursively calculates the phonetically matching
+# sentences for a given phoneme list.
+# Arguments:
+#     1. Phoneme tree
+#     2. List of phonemes to match
+#     3. Accumuative current match sentence string
+#     4. Index of phoneme currently being checked
 def CalcMatches(back, phons, match, i):
     res = []
 
@@ -75,6 +87,7 @@ def CalcMatches(back, phons, match, i):
 
     return res
 
+# Gets phonetically matching senteces for a sentence.
 def GetMatches(phon, back):
     res = CalcMatches(back.head,                    \
                       phon.rstrip('\n').split(' '), \

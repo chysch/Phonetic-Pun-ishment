@@ -1,15 +1,18 @@
 import sys
 from train_funcs import *
 
+# Runs the main training module
 def Train(output, rules, dicts):
     print("Training...")
-    
+
+    # Arrange input
     rule_file = open(rules, 'r')
     rule_lines = rule_file.readlines()
     rule_file.close()
 
     rule_lines = PrepareRules(rule_lines)
-    
+
+    # Create data
     output_list = []
     for d in dicts:
         dict_file = open(d, 'r')
@@ -22,7 +25,8 @@ def Train(output, rules, dicts):
             rule_lines, dict_lines)
 
     (fore_lines, back_lines) = GetLists(output_list)
-    
+
+    # Output
     fore_file = open(output + '.fore', 'w')
     fore_file.writelines(fore_lines)
     fore_file.close()
@@ -31,7 +35,8 @@ def Train(output, rules, dicts):
     back_file.writelines(back_lines)
     back_file.close()
 
-
+# If this module is the main running module make sure
+# the arguments are valid.
 if __name__ == '__main__':
     # Get command line arguments and allow for IDLE manual
     # argument input.
