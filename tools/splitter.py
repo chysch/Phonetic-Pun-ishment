@@ -34,3 +34,9 @@ def split_into_sentences(text):
     sentences = sentences[:-1]
     sentences = [s.strip() for s in sentences]
     return sentences
+
+def list_of_words_to_string(words):
+    result = ''
+    for word in words:
+        result = result + word + ' '
+    return result
