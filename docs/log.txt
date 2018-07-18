@@ -1,0 +1,23 @@
+I have decided to write a log file to document the evolution of the project.
+
+June 19:
+    Started creating the work plan for the project.
+    While thinking about the hyper parameters noticed that we also need to handle cases where two similar
+    sounds are consecutive because that can also create homophonic similarity where in one case the sound
+    appears once and in the other it appears twice. Example (brit): "No eyed dear" vs. "No idea"
+
+June 24:
+    Created a psuedo-code algorithm for the phonetic part of the project.
+
+July 4:
+    Created first version of training. Decided to leave the hyper-parameters for later since the 
+    first priority is having a working pipeling. Created only the structure for the the hyper-parameters.
+
+July 8:
+    First successful synthesis of non-filtered sentence matches. Noticed that since the sentences are not
+    punctuated, rather than filtering the invalid ones out, we need to check which ones can be punctuated
+    correctly.
+    
+July 18:
+    Implemented a hyper-parameter for replacing groups of phonemes. Discovered that current synthesis
+    algorithm requires too much memory. Will need to redo it.
