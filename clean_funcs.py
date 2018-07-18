@@ -1,3 +1,7 @@
+import re
+#import requests
+import urllib2, urllib, json
+
 # Creates a sentence match list from the lines of a
 # sentence output file.
 def PrepareRawData(raw_lines):
@@ -18,14 +22,71 @@ def PrepareRawData(raw_lines):
         i = i + num + 1
     return res
 
-# Returns True if a given list of words can be punctuated
+# Returns True iff a given list of words can be punctuated
 # correctly and logically and False otherwise.
 def CanPunctuate(match):
-    res = False
-    return res
+    sentence = ListOfWordsToString(match)
+    return (IsSyntacticallyValid(sentence) and IsSemanticallyValid(sentence)) or IsIncorrectnessIntended(sentence)
+
+# Returns True iff a given sentence is syntactically valid.
+def IsSyntacticallyValid(sentence):
+    return GetNumOfParsingAnalyses(sentence) > 0
+
+# Returns True iff a given sentence is semantically valid.
+def IsSemanticallyValid(sentence):
+    # TODO - Anna
+    return true
+
+# Returns True iff a given sentence is invalid with an intention
+# of humorous effect, and a word-play was in place.
+def IsIncorrectnessIntended(sentence):
+    # TODO - Anna
+    relatedWords = GetRelatedWordsOfAWord(word)
+    return false
 
 # Returns a list of correctly punctuated sentences for a
 # given unpunctuated sentence.
 def GetPunctuations(match):
     res = []
     return res
+
+# Makes a call to LOGON api to retrieve a list of gramatical
+# parsing analysis of a given sentence.
+def GetGrammticalParsingOfSentence(sentence):
+    parserUrl = 'http://erg.delph-in.net/logon'
+
+    data = [
+  ('input', sentence),
+  ('task', 'Analyze'),
+  ('roots', 'sentences'),
+  ('genericsp', 'yes'),
+  ('exhaustivep', 'best'),
+  ('output', 'tree'),
+  ('output', 'dm'),
+  ('output', 'eds'),
+  ('nresults', '0'),]
+
+    body = urllib.urlencode(dict(data=data))
+    response = urllib2.urlopen(parserUrl, body)
+    return json.loads(response.read())
+    #response = requests.post(parserUrl, data=data)
+    #return response
+
+# Parses the given response of the form "0 of 2 analyses" to extract the result
+# of parsing analyses and returns the number of total analyses.
+def GetNumOfParsingAnalyses(response):
+    regex = re.compile(r"of (^[0-9]+$) analyses")
+    return re.search(regex, response).group(1)
+
+# Makes a call to DataMuse API to retrieve a list of related words
+# for a given word.
+def GetRelatedWordsOfAWord(word):
+    url = 'https://api.datamuse.com/words?ml='
+    response = requests.get(url + word)
+    return response.json()
+
+def ListOfWordsToString(words):
+    result = ''
+    for word in words:
+        result = result + word + ' '
+    return result
