@@ -3,7 +3,51 @@ import re
 # Rule: Replace a set of phonemes with a different set.
 def RuleReplace(rule, line):
     res = line
-    # TODO: Implement...
+    d = []
+    l1 = len(line[1])
+    l = len(rule[2])
+    r = range(l)
+    if rule[1] == 'any':
+        for i in range(l1):
+            if line[1][i] != rule[2][0] or i+l > l1:
+                d.append(line[1][i])
+                continue
+            is_match = True
+            for j in r:
+                if line[1][i+j] != rule[2][j]:
+                    is_match = False
+            if is_match:
+                for j in rule[3]:
+                    d.append(j)
+                i = i + l - 1
+    elif rule[1] == 'start':
+        is_match = True
+        for j in r:
+            if line[1][j] != rule[2][j]:
+                is_match = False
+        s = 0
+        if is_match:
+            for j in rule[3]:
+                d.append(j)
+            s = l
+        for i in range(s,l1):
+            d.append(line[1][i])
+    elif rule[1] == 'end':
+        is_match = True
+        for j in r:
+            if line[1][l1-l+j] != rule[2][j]:
+                is_match = False
+        e = l1
+        if is_match:
+            e = l1-l
+        for i in range(e):
+            d.append(line[1][i])
+        if is_match:
+            for j in rule[3]:
+                d.append(j)
+    else:
+        d = res[1]
+    res = (res[0], d)
     return res
 
 # Creates a list of rules
@@ -11,21 +55,21 @@ def RuleReplace(rule, line):
 # Result: List of 4-member tuples each containing:
 #             1. The function applying to the rule
 #             2. The location of application:
-#                'Start' - The first phoneme/s in each word
-#                'End' - The last phoneme/s in each word
-#                'Any' - Any matching phoneme
+#                'start' - The first phoneme/s in each word
+#                'end' - The last phoneme/s in each word
+#                'any' - Any matching phoneme
 #             3. Phoneme/s to which to apply
 #             4. Phoneme/s to apply
 def PrepareRules(rule_lines):
     res = []
     funcs = {"Replace":RuleReplace} # TODO: Add more...
     for rule in rule_lines:
-        (d,i) = rule.split(':')
+        (d,i) = rule.rstrip('\n').split(':')
         (f,p) = d.split(',')
         (l,r) = i.split(',')
         entry = []
         entry.append(funcs[f])
-        entry.append(i)
+        entry.append(p)
         entry.append(l.split(' '))
         entry.append(r.split(' '))
         res.append(tuple(entry))
