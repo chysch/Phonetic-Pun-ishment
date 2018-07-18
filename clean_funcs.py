@@ -1,6 +1,6 @@
 import re
-import requests
-from splitter import *
+#import requests
+import urllib2, urllib, json
 
 # Creates a sentence match list from the lines of a
 # sentence output file.
@@ -25,7 +25,8 @@ def PrepareRawData(raw_lines):
 # Returns True iff a given list of words can be punctuated
 # correctly and logically and False otherwise.
 def CanPunctuate(match):
-    return (IsSyntacticallyValid(match) and IsSemanticallyValid(match)) or IsIncorrectnessIntended(match)
+    sentence = ListOfWordsToString(match)
+    return (IsSyntacticallyValid(sentence) and IsSemanticallyValid(sentence)) or IsIncorrectnessIntended(sentence)
 
 # Returns True iff a given sentence is syntactically valid.
 def IsSyntacticallyValid(sentence):
@@ -65,8 +66,11 @@ def GetGrammticalParsingOfSentence(sentence):
   ('output', 'eds'),
   ('nresults', '0'),]
 
-    response = requests.post(parserUrl, data=data)
-    return response
+    body = urllib.urlencode(dict(data=data))
+    response = urllib2.urlopen(parserUrl, body)
+    return json.loads(response.read())
+    #response = requests.post(parserUrl, data=data)
+    #return response
 
 # Parses the given response of the form "0 of 2 analyses" to extract the result
 # of parsing analyses and returns the number of total analyses.
@@ -80,3 +84,9 @@ def GetRelatedWordsOfAWord(word):
     url = 'https://api.datamuse.com/words?ml='
     response = requests.get(url + word)
     return response.json()
+
+def ListOfWordsToString(words):
+    result = ''
+    for word in words:
+        result = result + word + ' '
+    return result
