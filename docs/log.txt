@@ -1,4 +1,4 @@
-I have decided to write a log file to document the evolution of the project.
+We have decided to write a log file to document the evolution of the project.
 
 June 19:
     Started creating the work plan for the project.
@@ -21,3 +21,19 @@ July 8:
 July 18:
     Implemented a hyper-parameter for replacing groups of phonemes. Discovered that current synthesis
     algorithm requires too much memory. Will need to redo it.
+
+July 19:
+    Tried to switch the recursive function in the synthesis algorithmwith a FIFO queue. It didn't help, and because 
+    of added traverses of the tree may have added a little to complexity. After delving into the problem in greater 
+    depth discovered that the problem is that when applying the hyper-parameters just a little, the number of matches 
+    rises to enormous numbers: for the sentence "HE DIDN'T CEDER TREE" there were above 1M matches.
+    Decided to try dumping into the output file after every sentence. The first 19 sentences produced over 147MB.
+    The 20th sentence, "DOLPHINS DON'T SPEAK WELSH ONLY WALES", on which the memory kept overflowing, still took 
+    an extremely long time to compute and crashed on a Memory Error.
+    Decided to switch to a LIFO queue so that the queue will not fill exponentially before emptying. The trick
+    worked, yielding for above sentence more than 11M matches. The program still crashed with a Memory Error, but
+    the information achieved by the test was sufficient: tweaking this specific type of hyper-parameter has a
+    devastating effect in the current pipeline arrangement with the CMU phonetic dictionary.
+    Will need to think of next step. Probably will have to either filter from the CMU dictionary words that are not
+    proper English or Proper Names, or will have to check matches for correctness already at this stage, or might
+    have to find a better solution for the necessity which required the hyper-parameters in the first place.
