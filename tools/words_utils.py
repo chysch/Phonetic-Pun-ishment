@@ -1,5 +1,5 @@
 
-def load_words():
+def LoadDictWords():
     with open('dicts/words_alpha.txt') as word_file:
         valid_words = set(word_file.read().split())
 
