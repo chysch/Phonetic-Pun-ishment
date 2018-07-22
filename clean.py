@@ -42,7 +42,7 @@ if __name__ == '__main__':
             print("Usage: <output name> <RAW file>")
             sys.argv.extend(input("Args: ").split())
 
-    if len(sys.argv) != 4:
+    if len(sys.argv) != 3:
         print("Usage: <output name> <RAW file>")
     else:
         Clean(sys.argv[1], sys.argv[2])
