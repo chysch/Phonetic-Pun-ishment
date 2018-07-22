@@ -1,4 +1,5 @@
 from tree import *
+import tools
 
 # Parses the phonemes and the words they represent into
 # a tree where the inner nodes are phonemes and the
@@ -20,22 +21,7 @@ def PrepareBackData(back_lines):
 # Creates a phonetic match list from the lines of a
 # phonetic output file.
 def PreparePhonData(phon_lines):
-    res = []
-    i = 0
-    while i<len(phon_lines):
-        if phon_lines[i] == '\n':
-            i = i + 1
-            continue
-        line = phon_lines[i]
-        i = i + 1
-        num = int(phon_lines[i])
-        d = []
-        for j in range(num):
-            d.append(phon_lines[i+j+1])
-        entry = (line,d)
-        res.append(entry)
-        i = i + num + 1
-    return res
+    return PrepareData(phon_lines)
 
 # Recursively calculates the phonetically matching
 # sentences for a given phoneme list.
@@ -74,7 +60,7 @@ def CalcMatches(back, phons, match, i):
         res = res + CalcMatches(back.Child(phons[i]), \
                                 phons,                \
                                 match, i+1)
-    
+
     # Case 4: Word was not in phon-dictionary
     if phons[i] == '---' and back == back.head:
         full_match = match
