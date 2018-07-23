@@ -18,9 +18,13 @@ def Synthesize(output, phon, back):
     back_data = PrepareBackData(back_lines)
     phon_data = PreparePhonData(phon_lines)
 
-    # Create data
-    raw_lines = []
+    raw_file = open(output + '.raw', 'w')
+    raw_file.close()
+
+    count = 0
     for pair in phon_data:
+        # Create data
+        raw_lines = []
         raw_lines.append(pair[0])
         matches = []
         for d in pair[1]:
@@ -29,11 +33,15 @@ def Synthesize(output, phon, back):
         raw_lines.append(str(len(matches)) + '\n')
         raw_lines = raw_lines + matches
         raw_lines.append('\n')
+        count = count + 1
+        print("Completed synthesis for #" + str(count),\
+              pair[0].rstrip('\n'),
+              "(" + str(len(matches)) + ")")
 
-    # Output
-    raw_file = open(output + '.raw', 'w')
-    raw_file.writelines(raw_lines)
-    raw_file.close()
+        # Output
+        raw_file = open(output + '.raw', 'a')
+        raw_file.writelines(raw_lines)
+        raw_file.close()
 
 # If this module is the main running module make sure
 # the arguments are valid.
