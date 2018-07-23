@@ -21,7 +21,7 @@ def Clean(output, raw):
         matches = []
         for match in pair[1]:
             if CanPunctuate(match):
-                matches = matches + GetPunctuations(match)
+                matches.append(match)
         matches = list(set(matches))
         parsed_lines.append(str(len(matches)) + '\n')
         parsed_lines = parsed_lines + matches

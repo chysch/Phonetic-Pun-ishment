@@ -24,13 +24,18 @@ def PrepareRawData(raw_lines):
 # Returns True iff a given list of words can be punctuated
 # correctly and logically and False otherwise.
 def CanPunctuate(match):
-    return (IsSyntacticallyValid(match) and IsSemanticallyValid(match)) or IsIncorrectnessIntended(match)
+    valid = (IsSyntacticallyValid(match) and IsSemanticallyValid(match))
+    invalidIntended = IsIncorrectnessIntended(match)
+    #print ('valid: '+str(valid))
+    return (valid or invalidIntended)
 
 # Returns True iff a given sentence is syntactically valid.
 def IsSyntacticallyValid(sentence):
     #print sentence.strip()
     parsing = GetGrammticalParsingOfSentence(sentence)
-    return GetNumOfParsingAnalyses(parsing) > 0
+    n = GetNumOfParsingAnalyses(parsing)
+    #print n
+    return (n > 0)
 
 # Returns True iff a given sentence is semantically valid.
 def IsSemanticallyValid(sentence):
@@ -48,6 +53,7 @@ def IsIncorrectnessIntended(sentence):
 # given unpunctuated sentence.
 def GetPunctuations(match):
     res = []
+    res.append(match)
     return res
 
 # Makes a call to LOGON api to retrieve a list of gramatical
@@ -75,7 +81,7 @@ def GetNumOfParsingAnalyses(response):
     if fullAnalysisInfo is None:
         return 0
     numOfAnalysis = re.search('([0-9]+) of ([0-9]+)', fullAnalysisInfo.group(1)).group(2)
-    return numOfAnalysis
+    return int(numOfAnalysis)
 
 # Makes a call to DataMuse API to retrieve a list of related words
 # for a given word.
