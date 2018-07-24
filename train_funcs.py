@@ -1,4 +1,6 @@
 import re
+from nltk.corpus import wordnet
+import nltk.corpus
 
 # Rule: Replace a set of phonemes with a different set.
 def RuleReplace(rule, line):
@@ -50,6 +52,16 @@ def RuleReplace(rule, line):
     res = (res[0], d)
     return res
 
+# Rule: Test WordNet to see if word exists there.
+def RuleWordNetFilter(rule, line):    
+    if line[0] in RuleWordNetFilter.words:
+        return line
+    if line[0].lower() in RuleWordNetFilter.words:
+        return line
+    if len(wordnet.synsets(line[0])) == 0:
+        return None
+    return line
+
 # Creates a list of rules
 # Argument: List of strings, each string a rule.
 # Result: List of 4-member tuples each containing:
@@ -61,32 +73,50 @@ def RuleReplace(rule, line):
 #             3. Phoneme/s to which to apply
 #             4. Phoneme/s to apply
 def PrepareRules(rule_lines):
-    res = []
-    funcs = {"Replace":RuleReplace} # TODO: Add more...
+    res = ([],[],[])
+    funcs = {"Replace":RuleReplace, \
+             "WordNetFilter":RuleWordNetFilter} \
+             # TODO: Add more...
     for rule in rule_lines:
-        (d,i) = rule.rstrip('\n').split(':')
-        (f,p) = d.split(',')
-        (l,r) = i.split(',')
-        entry = []
-        entry.append(funcs[f])
-        entry.append(p)
-        entry.append(l.split(' '))
-        entry.append(r.split(' '))
-        res.append(tuple(entry))
+        if rule.strip('\n').strip(' ') == '':
+            continue
+        (t,c) = rule.rstrip('\n').split('#')
+        if t == 'Phon':
+            (d,i) = c.split(':')
+            (f,p) = d.split(',')
+            (l,r) = i.split(',')
+            entry = []
+            entry.append(funcs[f])
+            entry.append(p)
+            entry.append(l.split(' '))
+            entry.append(r.split(' '))
+            res[0].append(tuple(entry))
+        elif t == 'Word':
+            entry = []
+            entry.append(funcs[c])
+            res[1].append(tuple(entry))
     return res
 
 # Applies a list of rules to a dictionary pair.
 def ApplyRules(rule_lines, line):
     res = line
-    for rule in rule_lines:
+    for rule in rule_lines[1]:
+        res = rule[0](rule, res)
+        if res == None:
+            return res
+    for rule in rule_lines[0]:
         res = rule[0](rule, res)
     return res
 
 # Applies a list of rules to a list of dictionary pairs.
 def ConvertList(rule_lines, dict_lines):
     res = []
+    RuleWordNetFilter.words = set(nltk.corpus.words.words())
     for line in dict_lines:
-        res.append(ApplyRules(rule_lines, line))
+        entry = ApplyRules(rule_lines, line)
+        if entry != None:
+            res.append(entry)
+    RuleWordNetFilter.words = []
     return res
 
 # Creates a list of phonetic dictionary entries.
