@@ -37,3 +37,17 @@ July 19:
     Will need to think of next step. Probably will have to either filter from the CMU dictionary words that are not
     proper English or Proper Names, or will have to check matches for correctness already at this stage, or might
     have to find a better solution for the necessity which required the hyper-parameters in the first place.
+
+July 24:
+    Decided to install NLTK so as to try to use its resources for various aspects of the project.
+    To install NLTK in Windows type in the command line in the Python directory (The EXE they provide doesn't work):
+        python -n pip install nltk
+    In addition to installing NLTK there are various extensions needed (not sure all will be necessary in final project but 
+    advise to add all in any case). Here is the list of commands to use in the Python interpreter (will add more when
+    necessary):
+        nltk.download('punkt')
+        nltk.download('averaged_perceptron_tagger')
+        nltk.download('wordnet')
+        nltk.download('words')
+    After installing NLTK tried to create new hyper-parameter filter using the "synsets" function. It failed on words like
+    "they", "with" and "don't". Adding nltk.corpus.words helped for "they" and "with" but not "don't".
