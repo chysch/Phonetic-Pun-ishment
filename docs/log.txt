@@ -51,3 +51,15 @@ July 24:
         nltk.download('words')
     After installing NLTK tried to create new hyper-parameter filter using the "synsets" function. It failed on words like
     "they", "with" and "don't". Adding nltk.corpus.words helped for "they" and "with" but not "don't".
+
+July 25:
+    Decided to add a list of contractions (words like "don't") manually. Now no words from the current test file are a
+    problem but it doesn't prove that no words are in fact a problem. Will consider dealing with missing words via
+    web service. 
+    Used the current version to see implications of word filter. Without the replace hyper-parameter shortened the list
+    by what seems to be a constant factor. With the replace hyper-parameter gave only about 6K matches for "HE DIDN'T CEDER 
+    TREE" but still has more than 9M matches (and counting - I stopped it in the middle) for "DOLPHINS DON'T SPEAK WELSH ONLY 
+    WALES".
+    Will consider using the replace hyper-parameter only where a pun was not found without it. 
+    It is possible the current configuration of the system is only good for very short sentences. In that case must consider
+    creating a sub-system for shortening the sentence given to only the words that need to be checked for a pun.
