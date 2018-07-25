@@ -22,7 +22,7 @@ def PrepareBackData(back_lines):
 # Creates a phonetic match list from the lines of a
 # phonetic output file.
 def PreparePhonData(phon_lines):
-    return PrepareData(phon_lines)
+    return tools.PrepareData(phon_lines)
 
 # Class for calculating sentence matches from phonemes.
 class MatchMaker:
