@@ -53,10 +53,8 @@ def RuleReplace(rule, line):
     return res
 
 # Rule: Test WordNet to see if word exists there.
-def RuleWordNetFilter(rule, line):    
+def RuleWordNetFilter(rule, line):   
     if line[0] in RuleWordNetFilter.words:
-        return line
-    if line[0].lower() in RuleWordNetFilter.words:
         return line
     if len(wordnet.synsets(line[0])) == 0:
         return None
@@ -108,10 +106,49 @@ def ApplyRules(rule_lines, line):
         res = rule[0](rule, res)
     return res
 
+# Creates a uppercase word set for filtering.
+def CreateWordSet():
+    res = []
+    contractions = [\
+        "ain't", "aren't", "can't", "can't've", \
+        "'cause", "could've", "couldn't", "couldn't've", \
+        "didn't", "doesn't", "don't", "hadn't", \
+        "hadn't've", "hasn't", "haven't", "he'd", \
+        "he'd've", "he'll", "he'll've", "he's", "how'd", \
+        "how'd'y", "how'll", "how's", "I'd", "I'd've", \
+        "I'll", "I'll've", "I'm", "I've", "isn't", "it'd", \
+        "it'd've", "it'll", "it'll've", "it's", "let's", \
+        "ma'am", "mayn't", "might've", "mightn't", \
+        "mightn't've", "must've", "mustn't", "mustn't've", \
+        "needn't", "needn't've", "o'clock", "oughtn't", \
+        "oughtn't've", "shan't", "sha'n't", "shan't've", \
+        "she'd", "she'd've", "she'll", "she'll've", \
+        "she's", "should've", "shouldn't", "shouldn't've", \
+        "so've", "so's", "that'd", "that'd've", "that's", \
+        "there'd", "there'd've", "there's", "they'd", \
+        "they'd've", "they'll", "they'll've", "they're", \
+        "they've", "to've", "wasn't", "we'd", "we'd've", \
+        "we'll", "we'll've", "we're", "we've", "weren't", \
+        "what'll", "what'll've", "what're", "what's", \
+        "what've", "when's", "when've", "where'd", \
+        "where's", "where've", "who'll", "who'll've", \
+        "who's", "who've", "why's", "why've", "will've", \
+        "won't", "won't've", "would've", "wouldn't", \
+        "wouldn't've", "y'all", "y'all'd", "y'all'd've", \
+        "y'all're", "y'all've", "you'd", "you'd've",\
+        "you'll", "you'll've", "you're", "you've"]
+    res = res + nltk.corpus.words.words()
+    res = res + contractions
+    res = list(set(res))
+    for i in range(len(res)):
+        res[i] = res[i].upper()
+    res = set(res)
+    return res
+
 # Applies a list of rules to a list of dictionary pairs.
 def ConvertList(rule_lines, dict_lines):
     res = []
-    RuleWordNetFilter.words = set(nltk.corpus.words.words())
+    RuleWordNetFilter.words = CreateWordSet()
     for line in dict_lines:
         entry = ApplyRules(rule_lines, line)
         if entry != None:
