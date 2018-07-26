@@ -78,7 +78,7 @@ def RuleWordNetFilter(rule, line):
 #     "Sent" rules:
 #         List of tuples (name, value).
 def PrepareRules(rule_lines):
-    res = ([],[],[])
+    res = ([],[],{})
     funcs = {"Replace":RuleReplace, \
              "WordNetFilter":RuleWordNetFilter} \
              # TODO: Add more...
@@ -102,7 +102,7 @@ def PrepareRules(rule_lines):
             res[1].append(tuple(entry))
         elif t == 'Sent':
             entry = c.split(':')
-            res[2].append(tuple(entry))
+            res[2][entry[0]] = entry[1]
     return res
 
 # Creates a uppercase word set for filtering.
