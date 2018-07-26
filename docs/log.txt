@@ -63,3 +63,8 @@ July 25:
     Will consider using the replace hyper-parameter only where a pun was not found without it. 
     It is possible the current configuration of the system is only good for very short sentences. In that case must consider
     creating a sub-system for shortening the sentence given to only the words that need to be checked for a pun.
+
+July 26:
+    Decided that since a pun usually is in only a small and consequent part of a sentence we can add a general threshold
+    parameter that will make the system check only up to N words at a time leaving the rest of the sentence without changes.
+    This necessitated to rearrange the rules so that they are not only for training but for all the stages.
