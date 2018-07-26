@@ -9,9 +9,9 @@ import evaluate
 def Run(output, test, gold, rule, dicts):
     print("Running...")
     train.Train(output, rule, dicts)
-    analyze.Analyze(output, test, output + '.fore')
-    synthesize.Synthesize(output, output + '.phon', output + '.back')
-    clean.Clean(output, output + '.raw')
+    analyze.Analyze(output, test, output + '.fore', rule)
+    synthesize.Synthesize(output, output + '.phon', output + '.back', rule)
+    clean.Clean(output, output + '.raw', rule)
     evaluate.Evaluate(output, output + '.parsed', gold)
 
 # If this module is the main running module make sure

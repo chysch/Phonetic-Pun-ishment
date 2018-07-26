@@ -1,12 +1,19 @@
 import sys
 from analyze_funcs import *
+from rules import *
 
 # Runs the analysis module which translates the test data
 # into its phonetic structure.
-def Analyze(output, test, fore):
+def Analyze(output, test, fore, rules):
     print("Analyzing...")
 
     # Organize input
+    rule_file = open(rules, 'r')
+    rule_lines = rule_file.readlines()
+    rule_file.close()
+
+    rule_lines = PrepareRules(rule_lines)[2]
+
     test_file = open(test, 'r')
     test_lines = test_file.readlines()
     test_file.close()
@@ -35,10 +42,10 @@ if __name__ == '__main__':
     # argument input.
     if 'idlelib' in sys.modules:
         if sys.modules['idlelib']:
-            print("Usage: <output name> <TEST file> <FORE file>")
+            print("Usage: <output name> <TEST file> <FORE file> <RULE file>")
             sys.argv.extend(input("Args: ").split())
 
-    if len(sys.argv) != 4:
-        print("Usage: <output name> <TEST file> <FORE file>")
+    if len(sys.argv) != 5:
+        print("Usage: <output name> <TEST file> <FORE file> <RULE file>")
     else:
-        Analyze(sys.argv[1], sys.argv[2], sys.argv[3])
+        Analyze(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])

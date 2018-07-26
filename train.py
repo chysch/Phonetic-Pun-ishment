@@ -1,4 +1,5 @@
 import sys
+from rules import *
 from train_funcs import *
 
 # Runs the main training module

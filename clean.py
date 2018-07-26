@@ -1,13 +1,20 @@
 import sys
 from clean_funcs import *
+from rules import *
 
 # Runs the main filtering module which filters from the
 # raw match data only the matches which we want in the
 # final parsed file.
-def Clean(output, raw):
+def Clean(output, raw, rules):
     print("Filtering...")
 
     # Organize input
+    rule_file = open(rules, 'r')
+    rule_lines = rule_file.readlines()
+    rule_file.close()
+
+    rule_lines = PrepareRules(rule_lines)[2]
+
     raw_file = open(raw, 'r')
     raw_lines = raw_file.readlines()
     raw_file.close()
@@ -39,10 +46,10 @@ if __name__ == '__main__':
     # argument input.
     if 'idlelib' in sys.modules:
         if sys.modules['idlelib']:
-            print("Usage: <output name> <RAW file>")
+            print("Usage: <output name> <RAW file> <RULE file>")
             sys.argv.extend(input("Args: ").split())
 
-    if len(sys.argv) != 3:
-        print("Usage: <output name> <RAW file>")
+    if len(sys.argv) != 4:
+        print("Usage: <output name> <RAW file> <RULE file>")
     else:
         Clean(sys.argv[1], sys.argv[2])

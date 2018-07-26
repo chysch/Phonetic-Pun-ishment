@@ -1,12 +1,19 @@
 import sys
 from synthesize_funcs import *
+from rules import *
 
 # Runs the main synthesis module which finds phonetic
 # matches for the test data.
-def Synthesize(output, phon, back):
+def Synthesize(output, phon, back, rules):
     print("Synthesizing...")
 
     # Organize input
+    rule_file = open(rules, 'r')
+    rule_lines = rule_file.readlines()
+    rule_file.close()
+
+    rule_lines = PrepareRules(rule_lines)[2]
+
     phon_file = open(phon, 'r')
     phon_lines = phon_file.readlines()
     phon_file.close()
@@ -50,10 +57,10 @@ if __name__ == '__main__':
     # argument input.
     if 'idlelib' in sys.modules:
         if sys.modules['idlelib']:
-            print("Usage: <output name> <PHON file> <BACK file>")
+            print("Usage: <output name> <PHON file> <BACK file> <RULE file>")
             sys.argv.extend(input("Args: ").split())
 
-    if len(sys.argv) != 4:
-        print("Usage: <output name> <PHON file> <BACK file>")
+    if len(sys.argv) != 5:
+        print("Usage: <output name> <PHON file> <BACK file> <RULE file>")
     else:   
-        Synthesize(sys.argv[1], sys.argv[2], sys.argv[3])
+        Synthesize(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
