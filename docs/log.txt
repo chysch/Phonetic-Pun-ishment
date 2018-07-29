@@ -68,3 +68,7 @@ July 26:
     Decided that since a pun usually is in only a small and consequent part of a sentence we can add a general threshold
     parameter that will make the system check only up to N words at a time leaving the rest of the sentence without changes.
     This necessitated to rearrange the rules so that they are not only for training but for all the stages.
+    
+July 29:
+    Applied said threshold to analysis and synthesis. Had major success: replace + WordNet + threshold 4 produced less 
+    than 49K matches for "DOLPHINS DON'T SPEAK WELSH ONLY WALES".
