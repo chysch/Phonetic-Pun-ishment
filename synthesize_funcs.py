@@ -1,5 +1,4 @@
 from tree import *
-import tools
 import queue
 
 # Parses the phonemes and the words they represent into
@@ -22,7 +21,32 @@ def PrepareBackData(back_lines):
 # Creates a phonetic match list from the lines of a
 # phonetic output file.
 def PreparePhonData(phon_lines):
-    return tools.PrepareData(phon_lines)
+    res = []
+    i = 0
+    while i<len(phon_lines):
+        if phon_lines[i] == '\n':
+            i = i + 1
+            continue
+        line = phon_lines[i]
+        i = i + 1
+        num = int(phon_lines[i])
+        d = []
+        for j in range(num):
+            duo = phon_lines[i+j+1].rstrip('\n')\
+                           .split('[')
+            (start,rest) = ('',duo[0])
+            if len(duo) == 2:
+                (start,rest) = duo
+            duo = rest.split(']')
+            (rest,end) = (duo[0],'')
+            if len(duo) == 2:
+                (rest,end) = duo
+            trio = (start,rest,end)
+            d.append(trio)
+        entry = (line,d)
+        res.append(entry)
+        i = i + num + 1
+    return res
 
 # Class for calculating sentence matches from phonemes.
 class MatchMaker:
@@ -153,12 +177,9 @@ def CalcMatches(back, phons, match, i):
     return res
 
 # Gets phonetically matching senteces for a sentence.
-def GetMatches(phon, back):
-#    res = CalcMatches(back.head,                    \
-#                      phon.rstrip('\n').split(' '), \
-#                      '', 0)
-    maker = MatchMaker(back.head, \
-                       phon.rstrip('\n').split(' '))
+def GetMatches(phon, back, rules):
+#    res = CalcMatches(back.head, phon[1], '', 0)
+    maker = MatchMaker(back.head, phon[1].split(' '))
     res = maker.CalcMatches()
     res = list(set(res))
     return res

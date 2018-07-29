@@ -1,0 +1,5 @@
+Phon#Replace,any:NG,N
+Phon#Replace,end:ER,AH
+Phon#Replace,any:IY AH,IH R
+Word#WordNetFilter
+Sent#Threshold:4

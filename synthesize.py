@@ -35,7 +35,9 @@ def Synthesize(output, phon, back, rules):
         raw_lines.append(pair[0])
         matches = []
         for d in pair[1]:
-            matches = matches + GetMatches(d, back_data)
+            matches = matches + \
+                      GetMatches(d, back_data, rule_lines)
+        map(lambda x: pair[1][0]+x+pair[1][2], matches)
         matches = list(set(matches))
         raw_lines.append(str(len(matches)) + '\n')
         raw_lines = raw_lines + matches

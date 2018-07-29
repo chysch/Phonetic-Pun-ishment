@@ -27,8 +27,8 @@ def Analyze(output, test, fore, rules):
     # Create data
     phon_lines = []
     for line in test_lines:
-        phon_lines = phon_lines + \
-                     AnalyzeLine(fore_data, line)
+        phon_lines = phon_lines + AnalyzeLine(\
+            fore_data, line, rule_lines)
 
     # Output
     phon_file = open(output + '.phon', 'w')

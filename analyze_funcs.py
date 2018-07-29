@@ -41,12 +41,34 @@ def GetPhonMatchList(fore_data, words, i, line):
     return res
 
 # Generates phonetical structures for a sentence string.
-def AnalyzeLine(fore_data, line):
+def AnalyzeLine(fore_data, line, rules):
     res = []
     res.append(line.rstrip('\n')+'\n')
-    lst = GetPhonMatchList(fore_data, \
-                           line.rstrip('\n').split(' '), \
-                           0, '')
+    thres = 0
+    if 'Threshold' in rules:
+        thres = int(rules['Threshold'])
+    lst = []
+    line = line.rstrip('\n').split(' ')
+    l = len(line)
+    border = l-thres+1
+    if border <= 0:
+        lst = GetPhonMatchList(fore_data, line, 0, '')
+    else:
+        for i in range(0,border):
+            start = ''
+            for word in line[0:i]:
+                start = start + word
+                start = start + ' '
+            end = ''
+            for word in line[i+thres:l]:
+                end = end + ' '
+                end = end + word
+            words = line[i:i+thres]
+            curr = GetPhonMatchList(fore_data, words, 0, '')
+            for match in curr:
+                lst.append(start + \
+                           '[' + match.rstrip('\n') + ']'\
+                           + end + '\n')
     lst = list(set(lst))
     res.append(str(len(lst)) + '\n')
     res = res + lst
