@@ -14,8 +14,11 @@ A system for finding homophonic puns.
 Go to the website https://www.python.org/ and download and install the latest version of Python 3.X.
 ### Installing NLTK
 In the command line in the Python directory write the following command:
-> python -n pip install nltk
-
+```
+python -n pip install nltk
+```
 In the Python interpreter write for each library necessary a download command, for example:
-> nltk.download('punkt')
+```
+nltk.download('punkt')
+```
 ### Running the Project
