@@ -55,9 +55,11 @@ class MatchMaker:
     # Arguments:
     #     1. Phoneme tree
     #     2. List of phonemes to match
-    def __init__(self, back, phon):
+    #     3. Max. number of matches to return or 0 to ignore
+    def __init__(self, back, phon, trunc):
         self.back = back
         self.phons = phon
+        self.trunc = trunc
 
     # Traverses the back tree on a given route returning
     # the node at the end of the route or None.
@@ -95,6 +97,10 @@ class MatchMaker:
                         if count%50000 == 0:
                             res = list(set(res))
                             print(len(res), "matches created.")
+                        if self.trunc > 0:
+                            if len(res) >= self.trunc:
+                                return res
+
                 continue
 
             # Case 2: End of word
@@ -132,7 +138,8 @@ class MatchMaker:
 #     2. List of phonemes to match
 #     3. Accumuative current match sentence string
 #     4. Index of phoneme currently being checked
-def CalcMatches(back, phons, match, i):
+#     5. Max. number of matches to return or 0 to ignore
+def CalcMatches(back, phons, match, i, trunc):
     res = []
 
     # Case 1: End of sentence
@@ -156,13 +163,16 @@ def CalcMatches(back, phons, match, i):
             full_match = full_match + child.data.label
             res = res + CalcMatches(back.head,     \
                                     phons,         \
-                                    full_match, i)
+                                    full_match, i, trunc)
+        if trunc > 0:
+            if len(res) >= trunc:
+                return res
 
     # Case 3: Existing word start
     if back.ChildExists(phons[i]):
         res = res + CalcMatches(back.Child(phons[i]), \
                                 phons,                \
-                                match, i+1)
+                                match, i+1, trunc)
 
     # Case 4: Word was not in phon-dictionary
     if phons[i] == '---' and back == back.head:
@@ -172,14 +182,17 @@ def CalcMatches(back, phons, match, i):
         full_match = full_match + '---'
         res = res + CalcMatches(back.head,            \
                                 phons,                \
-                                full_match, i+1)
+                                full_match, i+1, trunc)
 
     return res
 
 # Gets phonetically matching senteces for a sentence.
 def GetMatches(phon, back, rules):
-#    res = CalcMatches(back.head, phon[1], '', 0)
-    maker = MatchMaker(back.head, phon[1].split(' '))
+    trunc = 0
+    if 'Trunc' in rules:
+        trunc = int(rules['Trunc'])
+#    res = CalcMatches(back.head, phon[1], '', 0, trunc)
+    maker = MatchMaker(back.head, phon[1].split(' '), trunc)
     res = maker.CalcMatches()
     res = list(set(res))
     return res
