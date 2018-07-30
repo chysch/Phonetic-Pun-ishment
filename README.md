@@ -19,6 +19,12 @@ python -n pip install nltk
 ```
 In the Python interpreter write for each library necessary a download command, for example:
 ```
-nltk.download('punkt')
+>>> nltk.download('punkt')
 ```
 ### Running the Project
+- Train
+- Analyze
+- Synthesize
+- Clean
+- Evaluate
+- Putting them all together
