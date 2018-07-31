@@ -58,7 +58,7 @@ July 25:
     web service. 
     Used the current version to see implications of word filter. Without the replace hyper-parameter shortened the list
     by what seems to be a constant factor. With the replace hyper-parameter gave only about 6K matches for "HE DIDN'T CEDER 
-    TREE" but still has more than 9M matches (and counting - I stopped it in the middle) for "DOLPHINS DON'T SPEAK WELSH ONLY 
+    TREE" but still has more than 9M matches (and counting - terminated it in the middle) for "DOLPHINS DON'T SPEAK WELSH ONLY 
     WALES".
     Will consider using the replace hyper-parameter only where a pun was not found without it. 
     It is possible the current configuration of the system is only good for very short sentences. In that case must consider
@@ -72,3 +72,19 @@ July 26:
 July 29:
     Applied said threshold to analysis and synthesis. Had major success: replace + WordNet + threshold 4 produced less 
     than 49K matches for "DOLPHINS DON'T SPEAK WELSH ONLY WALES".
+
+July 31:
+    Started considering the "NO IDEA" == "NO EYED DEER" problem. The obvious place for it is in the synthesis stage.
+    Basically, the necessary changes are in the following cases:
+        Assuming a phoneme A ending a word followed by phonemes B C:
+            1. A!=B - The next word begins with B C.
+            2. A!=B - The next word begins with A B C.
+            3. A==B - The next word begins with B C.
+            4. A==B - The next word begins with C.
+        Assuming consecutive phonemes A B B C:
+            5. Process phonemes as A B B C.
+            6. Process phonemes as A B C.
+    While trying to find correct terminology for such a situation found this interesting Wikipedia page:
+        https://en.wikipedia.org/wiki/Mondegreen
+    Although Mondegreen is a related term it is too general and more relevant for the general intention of the project.
+    For now will probably stick to the expression "Sticky Words".
