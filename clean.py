@@ -1,6 +1,7 @@
 import sys
 from clean_funcs import *
 from rules import *
+import time
 
 # Runs the main filtering module which filters from the
 # raw match data only the matches which we want in the
@@ -12,8 +13,8 @@ def Clean(output, raw, rules):
     rule_file = open(rules, 'r')
     rule_lines = rule_file.readlines()
     rule_file.close()
-
-    rule_lines = PrepareRules(rule_lines)[2]
+    sent_rules = PrepareRules(rule_lines)[2]
+    length_threshold = int(sent_rules['Threshold'])
 
     raw_file = open(raw, 'r')
     raw_lines = raw_file.readlines()
@@ -24,15 +25,30 @@ def Clean(output, raw, rules):
     # Create data
     parsed_lines = []
     for pair in raw_data:
-        parsed_lines.append(pair[0])
-        matches = []
-        for match in pair[1]:
-            if CanPunctuate(match):
-                matches.append(match)
-        matches = list(set(matches))
-        parsed_lines.append(str(len(matches)) + '\n')
-        parsed_lines = parsed_lines + matches
+        orig_sentence = pair[0]
+        list_of_matches = pair[1]
+
+        start_time = time.time()
+
+        parsed_lines.append(orig_sentence)
+        clean_matches = []
+        for match in list_of_matches:
+            # print ('can pun? : ' + match)
+            if CanPunctuate(orig_sentence, match, length_threshold):
+                # print ('-> yes ')
+                clean_matches.append(match)
+            # else:
+                # print ('-> no ')
+        clean_matches = list(set(clean_matches))
+        parsed_lines.append(str(len(clean_matches)) + '\n')
+        parsed_lines = parsed_lines + clean_matches
         parsed_lines.append('\n')
+
+        elapsed_time = "%.2f" % (time.time() - start_time)
+        print ('Finished Cleaning Sentence: ' + orig_sentence.strip()
+        + '\nValid Matches Out Of Total = ' + str(len(clean_matches)) + ' / ' + str(len(list_of_matches))
+        + '\nTime passed = ' + str(elapsed_time) + ' Sec\n')
+
 
     # Output
     parsed_file = open(output + '.parsed', 'w')
@@ -52,4 +68,4 @@ if __name__ == '__main__':
     if len(sys.argv) != 4:
         print("Usage: <output name> <RAW file> <RULE file>")
     else:
-        Clean(sys.argv[1], sys.argv[2])
+        Clean(sys.argv[1], sys.argv[2], sys.argv[3])

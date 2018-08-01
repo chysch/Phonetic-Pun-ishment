@@ -1,5 +1,7 @@
 import re
-import urllib2, urllib, json
+import urllib, json
+from urllib.request import urlopen
+from urllib.parse import urlencode
 
 # Creates a sentence match list from the lines of a
 # sentence output file.
@@ -23,7 +25,11 @@ def PrepareRawData(raw_lines):
 
 # Returns True iff a given list of words can be punctuated
 # correctly and logically and False otherwise.
-def CanPunctuate(match):
+def CanPunctuate(orig_sentence, match, length_threshold):
+    length_diff = abs(len(match.split(' ')) - len(orig_sentence.split(' ')))
+    # print ('length_diff: ' + str(length_diff))
+    if length_diff >= length_threshold:
+        return False
     valid = (IsSyntacticallyValid(match) and IsSemanticallyValid(match))
     invalidIntended = IsIncorrectnessIntended(match)
     #print ('valid: '+str(valid))
@@ -63,16 +69,30 @@ def GetGrammticalParsingOfSentence(sentence):
 
     #print sentence.strip()
 
-    data = []
-    data.append('input=')
-    data.append(sentence.strip())
-    data.append('&task=Analyze&roots=sentences&genericsp=yes&exhaustivep=best&output=tree&output=dm&output=eds&nresults=0')
+    # Pyhon2 fallback:
 
-    opener = urllib2.build_opener()
-    opener.addheaders = [('Content-Type', 'application/x-www-form-urlencoded')]
-    response = opener.open(parserUrl, ''.join(data))
+    # data = []
+    # data.append('input=')
+    # data.append(sentence.strip())
+    # data.append('&task=Analyze&roots=sentences&genericsp=yes&exhaustivep=best&output=tree&output=dm&output=eds&nresults=0')
 
-    return response.read()
+    # opener = urllib2.build_opener()
+    # opener.addheaders = [('Content-Type', 'application/x-www-form-urlencoded')]
+    # response = opener.open(parserUrl, ''.join(data))
+    # return response.read()
+
+    params = {"input": sentence.strip(), "task": "Analyze",
+    "roots": "sentences", "genericsp": "yes", "exhaustivep": "best",
+    "output": "tree", "output": "dm", "output": "eds", "nresults": "0"}
+
+    query_string = urllib.parse.urlencode(params)
+    data = query_string.encode()
+
+    req = urllib.request.Request(parserUrl,
+    headers = {'Content-Type': 'application/x-www-form-urlencoded'},
+    data=data)
+
+    return urllib.request.urlopen(req).read().decode()
 
 # Parses the given response of the form "0 of 2 analyses" to extract the result
 # of parsing analyses and returns the number of total analyses.
