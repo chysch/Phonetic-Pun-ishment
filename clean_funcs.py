@@ -92,7 +92,20 @@ def GetGrammticalParsingOfSentence(sentence):
     headers = {'Content-Type': 'application/x-www-form-urlencoded'},
     data=data)
 
-    return urllib.request.urlopen(req).read().decode()
+    res = ''
+    q = 'Y'
+    while q == 'y' or q == 'Y':
+        try:
+            res = urllib.request.urlopen(req).read().decode()
+        except ConnectionAbortedError as error:
+            print("Paused due to connection fail. Try again (Y/N/Q)?")
+            q = input()
+            if q == 'q' or q == 'Q':
+                exit()
+        else:
+            q = 'N'
+        
+    return res
 
 # Parses the given response of the form "0 of 2 analyses" to extract the result
 # of parsing analyses and returns the number of total analyses.
