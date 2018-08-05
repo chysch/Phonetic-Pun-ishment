@@ -77,14 +77,17 @@ July 31:
     Started considering the "NO IDEA" == "NO EYED DEER" problem. The obvious place for it is in the synthesis stage.
     Basically, the necessary changes are in the following cases:
         Assuming a phoneme A ending a word followed by phonemes B C:
-            1. A!=B - The next word begins with B C.
-            2. A!=B - The next word begins with A B C.
-            3. A==B - The next word begins with B C.
-            4. A==B - The next word begins with C.
+            1. A!=B - The next word begins with B C (Regular).
+            2. A!=B - The next word begins with A B C (Sticky).
+            3. A==B - The next word begins with B C (Regular).
+            4. A==B - The next word begins with C (Sticky).
         Assuming consecutive phonemes A B B C:
-            5. Process phonemes as A B B C.
-            6. Process phonemes as A B C.
+            5. Process phonemes as A B B C (Regular).
+            6. Process phonemes as A B C (Sticky).
     While trying to find correct terminology for such a situation found this interesting Wikipedia page:
         https://en.wikipedia.org/wiki/Mondegreen
     Although Mondegreen is a related term it is too general and more relevant for the general intention of the project.
     For now will probably stick to the expression "Sticky Words".
+
+August 5:
+    Have applied the cases of "Sticky Words". Cases 2 and 4 will need more work because they cause a Memory Error.
