@@ -122,7 +122,7 @@ class MatchMaker:
                     trio = ([], top[1], full_match)
                     Q.put(trio)
                     # Handle "Sticky Words"
-                    if self.sticky&self.s_types['Word']==1:
+                    if self.sticky&self.s_types['Word']>0:
                         A = self.phons[top[1]-1]
                         B = self.phons[top[1]]
                         if A != B:
@@ -135,18 +135,17 @@ class MatchMaker:
 
             # Case 3: Existing word start
             if node.ChildExists(self.phons[top[1]]):
-                route = top[0]
+                route = list(top[0])
                 route.append(self.phons[top[1]])
                 trio = (route, top[1]+1, top[2])
                 Q.put(trio)
                 # Handle "Sticky Words"
-                if self.sticky&self.s_types['Phon']==1:
-                    if top[1]+1 < len(self.phons):
-                        B = self.phons[top[1]]
-                        C = self.phons[top[1]+1]
-                        if B == C:
-                            trio = (route, top[1]+2, top[2])
-                            Q.put(trio)                    
+                if self.sticky&self.s_types['Phon']>0:
+                    B = self.phons[top[1]-1]
+                    C = self.phons[top[1]]
+                    if B == C:
+                        trio = (top[0], top[1]+1, top[2])
+                        Q.put(trio)                    
 
             # Case 4: Word was not in phon-dictionary
             if self.phons[top[1]] == '---' and top[0] == []:
@@ -223,14 +222,13 @@ def CalcMatches(back, phons, match, i, rules):
                                 match, i+1, rules)
         # Handle "Sticky Words"
         if sticky == 'Both' or sticky == 'Phon':
-            if i+1 < len(phons):
-                B = phons[i]
-                C = phons[i+1]
-                if B == C:
-                    res = res + CalcMatches(\
-                        back.Child(phons[i]),\
-                        phons,\
-                        match, i+2, rules)                    
+            B = phons[i-1]
+            C = phons[i]
+            if B == C:
+                res = res + CalcMatches( \
+                    back,                \
+                    phons,               \
+                    match, i+1, rules)                    
 
     # Case 4: Word was not in phon-dictionary
     if phons[i] == '---' and back == back.head:
