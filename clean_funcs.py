@@ -97,7 +97,7 @@ def GetGrammticalParsingOfSentence(sentence):
     while q == 'y' or q == 'Y':
         try:
             res = urllib.request.urlopen(req).read().decode()
-        except ConnectionAbortedError as error:
+        except (ConnectionAbortedError, URLError) as error:
             print("Paused due to connection fail. Try again (Y/N/Q)?")
             q = input()
             if q == 'q' or q == 'Q':
