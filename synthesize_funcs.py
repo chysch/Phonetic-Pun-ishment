@@ -56,10 +56,18 @@ class MatchMaker:
     #     1. Phoneme tree
     #     2. List of phonemes to match
     #     3. Max. number of matches to return or 0 to ignore
-    def __init__(self, back, phon, trunc):
+    def __init__(self, back, phon, rules):
         self.back = back
         self.phons = phon
-        self.trunc = trunc
+        self.trunc = 0
+        if 'Trunc' in rules:
+            self.trunc = int(rules['Trunc'])
+        self.sticky = 'None'
+        if 'Sticky' in rules:
+            self.sticky = rules['Sticky']
+        self.s_types = {\
+            'None':0,'Word':1,'Phon':2,'Both':3}
+        self.sticky = self.s_types[self.sticky]
 
     # Traverses the back tree on a given route returning
     # the node at the end of the route or None.
@@ -99,6 +107,7 @@ class MatchMaker:
                             print(len(res), "matches created.")
                         if self.trunc > 0:
                             if len(res) >= self.trunc:
+                                print("Truncated results.")
                                 return res
 
                 continue
@@ -112,6 +121,17 @@ class MatchMaker:
                     full_match = full_match + child.data.label
                     trio = ([], top[1], full_match)
                     Q.put(trio)
+                    # Handle "Sticky Words"
+                    if self.sticky&self.s_types['Word']==1:
+                        A = self.phons[top[1]-1]
+                        B = self.phons[top[1]]
+                        if A != B:
+                            i = top[1]-1
+                        else:
+                            i = top[1]+1
+                        if i >= 0 and i < len(self.phons):
+                            trio = ([], i, full_match)
+                            Q.put(trio)
 
             # Case 3: Existing word start
             if node.ChildExists(self.phons[top[1]]):
@@ -119,6 +139,14 @@ class MatchMaker:
                 route.append(self.phons[top[1]])
                 trio = (route, top[1]+1, top[2])
                 Q.put(trio)
+                # Handle "Sticky Words"
+                if self.sticky&self.s_types['Phon']==1:
+                    if top[1]+1 < len(self.phons):
+                        B = self.phons[top[1]]
+                        C = self.phons[top[1]+1]
+                        if B == C:
+                            trio = (route, top[1]+2, top[2])
+                            Q.put(trio)                    
 
             # Case 4: Word was not in phon-dictionary
             if self.phons[top[1]] == '---' and top[0] == []:
@@ -139,9 +167,13 @@ class MatchMaker:
 #     3. Accumuative current match sentence string
 #     4. Index of phoneme currently being checked
 #     5. Max. number of matches to return or 0 to ignore
-def CalcMatches(back, phons, match, i, trunc):
+def CalcMatches(back, phons, match, i, rules):
     res = []
 
+    sticky = 'None'
+    if 'Sticky' in rules:
+        sticky = rules['Sticky']
+    
     # Case 1: End of sentence
     if i >= len(phons):
         for child in back.children:
@@ -163,16 +195,42 @@ def CalcMatches(back, phons, match, i, trunc):
             full_match = full_match + child.data.label
             res = res + CalcMatches(back.head,     \
                                     phons,         \
-                                    full_match, i, trunc)
-        if trunc > 0:
-            if len(res) >= trunc:
-                return res
+                                    full_match, i, rules)
+            # Handle "Sticky Words"
+            if sticky == 'Both' or sticky == 'Word':
+                A = phons[i-1]
+                B = phons[i]
+                if A != B:
+                    ii = i-1
+                else:
+                    ii = i+1
+                if ii >= 0 and ii < len(self.phons):
+                    res = res + CalcMatches(back.head,\
+                                            phons,\
+                                            full_match,\
+                                            ii, rules)
+        if 'Trunc' in rules:
+            trunc = int(rules['Trunc'])
+            if trunc > 0:
+                if len(res) >= trunc:
+                    print("Truncated results")
+                    return res
 
     # Case 3: Existing word start
     if back.ChildExists(phons[i]):
         res = res + CalcMatches(back.Child(phons[i]), \
                                 phons,                \
-                                match, i+1, trunc)
+                                match, i+1, rules)
+        # Handle "Sticky Words"
+        if sticky == 'Both' or sticky == 'Phon':
+            if i+1 < len(phons):
+                B = phons[i]
+                C = phons[i+1]
+                if B == C:
+                    res = res + CalcMatches(\
+                        back.Child(phons[i]),\
+                        phons,\
+                        match, i+2, rules)                    
 
     # Case 4: Word was not in phon-dictionary
     if phons[i] == '---' and back == back.head:
@@ -182,17 +240,14 @@ def CalcMatches(back, phons, match, i, trunc):
         full_match = full_match + '---'
         res = res + CalcMatches(back.head,            \
                                 phons,                \
-                                full_match, i+1, trunc)
+                                full_match, i+1, rules)
 
     return res
 
 # Gets phonetically matching senteces for a sentence.
 def GetMatches(phon, back, rules):
-    trunc = 0
-    if 'Trunc' in rules:
-        trunc = int(rules['Trunc'])
-#    res = CalcMatches(back.head, phon[1], '', 0, trunc)
-    maker = MatchMaker(back.head, phon[1].split(' '), trunc)
+#    res = CalcMatches(back.head, phon[1], '', 0, rules)
+    maker = MatchMaker(back.head, phon[1].split(' '), rules)
     res = maker.CalcMatches()
     res = list(set(res))
     return res

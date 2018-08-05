@@ -1,0 +1,8 @@
+Phon#Replace,end:R,ER
+Phon#Replace,end:AH,ER
+Phon#Replace,any:IH,IY
+Word#WordNetFilter
+Sent#Threshold:3
+
+Sent#Trunc:100000
+Sent#Sticky:Phon
