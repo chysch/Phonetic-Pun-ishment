@@ -98,3 +98,8 @@ August 11:
     investigated if required.
     This required installing numpy (pip3 install numpy) and installing certificate 
     (/Applications/Python 3.7$ ./Install\ Certificates.command)
+    
+    Tried using Google search and filter sentences with no results - a strong and useful filter.
+    This required installing Google package (pip3 install google).
+    After a few runs Google blocked the requests due to their anti-bot policy. To overcome this we may use a different
+    search engine, like Bing, or signup to developers.google.com and use their api (might be a small fee).
