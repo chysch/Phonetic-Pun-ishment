@@ -96,3 +96,5 @@ August 11:
     Tried using NLTK for cleaning results, as an alternative or in addition to the LOGON online parser. The results were not
     that usable - weaker than the LOGON parser. Maybe we need to define a grammar for it to work. Something that can be 
     investigated if required.
+    This required installing numpy (pip3 install numpy) and installing certificate 
+    (/Applications/Python 3.7$ ./Install\ Certificates.command)
