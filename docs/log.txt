@@ -101,5 +101,7 @@ August 11:
     
     Tried using Google search and filter sentences with no results - a strong and useful filter.
     This required installing Google package (pip3 install google).
-    After a few runs Google blocked the requests due to their anti-bot policy. To overcome this we may use a different
-    search engine, like Bing, or signup to developers.google.com and use their api (might be a small fee).
+    After a few runs Google blocked the requests due to their anti-bot policy. To overcome this we may signup to 
+    developers.google.com and use their api (might be a small fee).
+    One option was using Bing, but they have a limit for transactions as well (1000 transactions per month) which does not
+    work for us.
