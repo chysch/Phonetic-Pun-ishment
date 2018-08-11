@@ -93,4 +93,6 @@ August 5:
     Have applied the cases of "Sticky Words". Cases 2 and 4 will need more work because they cause a Memory Error.
     
 August 11:
-    Tried using NLTK for cleaning results, as an alternative or in addition to the LOGON online parser. The results were not     that usable - weaker than the LOGON parser. Maybe we need to define a grammar for it to work. Something that can be         investigated if required.
+    Tried using NLTK for cleaning results, as an alternative or in addition to the LOGON online parser. The results were not
+    that usable - weaker than the LOGON parser. Maybe we need to define a grammar for it to work. Something that can be 
+    investigated if required.
