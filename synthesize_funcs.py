@@ -141,11 +141,12 @@ class MatchMaker:
                 Q.put(trio)
                 # Handle "Sticky Words"
                 if self.sticky&self.s_types['Phon']>0:
-                    B = self.phons[top[1]-1]
-                    C = self.phons[top[1]]
-                    if B == C:
-                        trio = (top[0], top[1]+1, top[2])
-                        Q.put(trio)                    
+                    if top[1]+1 < len(self.phons):
+                        B = self.phons[top[1]]
+                        C = self.phons[top[1]+1]
+                        if B == C:
+                            trio = (top[0], top[1]+1, top[2])
+                            Q.put(trio)                    
 
             # Case 4: Word was not in phon-dictionary
             if self.phons[top[1]] == '---' and top[0] == []:
@@ -222,13 +223,14 @@ def CalcMatches(back, phons, match, i, rules):
                                 match, i+1, rules)
         # Handle "Sticky Words"
         if sticky == 'Both' or sticky == 'Phon':
-            B = phons[i-1]
-            C = phons[i]
-            if B == C:
-                res = res + CalcMatches( \
-                    back,                \
-                    phons,               \
-                    match, i+1, rules)                    
+            if i+1<len(phons):
+                B = phons[i]
+                C = phons[i+1]
+                if B == C:
+                    res = res + CalcMatches( \
+                        back,                \
+                        phons,               \
+                        match, i+1, rules)                    
 
     # Case 4: Word was not in phon-dictionary
     if phons[i] == '---' and back == back.head:

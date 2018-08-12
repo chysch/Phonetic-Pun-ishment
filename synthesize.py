@@ -42,6 +42,7 @@ def Synthesize(output, phon, back, rules):
             parts = list(parts)
             matches = matches + parts
         matches = list(set(matches))
+        matches.sort()
         raw_lines.append(str(len(matches)) + '\n')
         raw_lines = raw_lines + matches
         raw_lines.append('\n')
