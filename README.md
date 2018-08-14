@@ -92,6 +92,15 @@ Explanation:
 #### Putting them all together
 We created a script for skipping all the middle stages to make the job easier.
 
-Output: All outputs from previous stages.
+Output: All outputs from all stages.
 
-
+Usage syntax:
+```
+full_run <output name> <TEST file> <GOLD file> <RULE file> <DICT files...>
+```
+Explanation:
+    - output name: The name of the output file/s without extensions.
+    - TEST file: The name of the TEST file with the sentences to analyze.
+    - GOLD file: The name of a the results expected in the PARSED file.
+    - RULE file: The name of a file with ".rule" extension with the hyper-parameter values to use.
+    - DICT files: The names of one or more phonetic dictionary files in plain text.
