@@ -105,3 +105,10 @@ August 11:
     developers.google.com and use their api (might be a small fee).
     One option was using Bing, but they have a limit for transactions as well (1000 transactions per month) which does not
     work for us.
+
+August 14:
+    After having fixed case 5 of "Sticky Words", Reconsidered cases 2 and 4. It seems that not all phonemes are "Sticky".
+    For instance, the phoneme AW won't stick to another AW because being a diphtong, it starts with AH and ends with UW so
+    twice AW (e.g. "how owl" sounding HH AW AW L) won't stick. It seems that cases 2 and 4 must be simplified to specific 
+    rules for the phonemes which can stick. The problem is that there are too many cases like that to conveniently write 
+    rules for all of them. Might need cleverly written rules to easily cover many cases.
