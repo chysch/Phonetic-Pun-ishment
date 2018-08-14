@@ -22,6 +22,7 @@ In the Python interpreter write for each library necessary a download command, f
 >>> nltk.download('punkt')
 ```
 ### Running the Project
+**_If you want a shortcut script which does the whole pipeline see [this](https://github.com/chysch/Phonetic-Pun-ishment#putting-them-all-together/)._**
 #### Train
 This stage takes a phonetic dictionary file and turns it into two phonetic files formatted for the next stages.
 
