@@ -220,6 +220,7 @@ Comments:
 ##### Example lines
 #### Gold files (.gold or .txt or other plain text)
 See [.parsed](#parsed).
+
 [Back to table of contents](#table-of-contents)
 ### Intermediate
 #### .fore
