@@ -208,19 +208,63 @@ Sent#Trunc:500000
 ```
 #### Test files (.test or .txt or other plain text)
 ##### Format
+Format type: A line for every entry
+
+Each entry:
+```
+<Sentence>
+```
+Comments:
+* All the letters must be uppercase.
+* The sentence must be without punctuation.
 ##### Example lines
 #### Gold files (.gold or .txt or other plain text)
-##### Format
-##### Example lines
-
+See [.parsed](#parsed).
 [Back to table of contents](#table-of-contents)
 ### Intermediate
 #### .fore
 ##### Format
+Format type: A line for every entry
+
+Each entry:
+```
+<Word>\t<Phoneme> <Phoneme> <Phoneme> etc.
+```
+Comments:
+* The words are composed of A-Z, a-z, 0-9 and symbols.
+* The phonemes can be any combination of one or more uppercase A-Z. We use the ARPAbet symbol set (see [wikipedia entry](http://en.wikipedia.org/wiki/Arpabet)).
 ##### Example lines
+```
+ADVANTAGEOUS    AE D V AH N T EY JH AH S
+ADVANTAGES  AE D V AE N T IH JH IH Z
+ADVANTAGES	AH D V AE N T IH JH IH Z
+ADVANTAGES	AE D V AE N IH JH IH Z
+ADVANTAGES	AH D V AE N IH JH IH Z
+ADVANTEST	AE D V AE N T AH S T
+ADVANTEST(2)	AH D V AE N T AH S T
+ADVECTION	AE D V EH K SH AH N
+ADVENT	AE D V EH N T
+```
 #### .back
 ##### Format
+Format type: A line for every entry
+
+Each entry:
+```
+<Phoneme> <Phoneme> <Phoneme> etc.\t<Word>
+```
+Comments:
+* The words are composed of A-Z, a-z, 0-9 and symbols.
+* The phonemes can be any combination of one or more uppercase A-Z. We use the ARPAbet symbol set (see [wikipedia entry](http://en.wikipedia.org/wiki/Arpabet)).
 ##### Example lines
+```
+IY R OW D Z	ERODES
+G L EY SH ER	GLACIER
+IY F IY SH AH N S IY	EFFICIENCY
+D IY S P OW Z IY NG	DISPOSING
+F AO R M AH N	FOREMEN
+R AA K AH W EY	ROCKAWAY
+```
 #### .phon
 ##### Format
 ##### Example lines
