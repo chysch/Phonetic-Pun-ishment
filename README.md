@@ -268,16 +268,79 @@ R AA K AH W EY	ROCKAWAY
 ```
 #### .phon
 ##### Format
+Format type: A set of lines for each entry succeeded by a empty line.
+
+Each entry:
+```
+<Sentence>
+<Number of Matches>
+<Words> [<Phonemes>] <Words>
+<Words> [<Phonemes>] <Words>
+<Words> [<Phonemes>] <Words>
+.
+.
+.
+
+```
+Comments:
+* The sentence is the original sentence from the test file.
+* The words and brackets are only if a threshold is defined in the rule file. The words are the words from the original sentence and the phonemes are the phonetic breakdowns of the words being analyzed.
 ##### Example lines
+```
+GOOD MORNING
+2
+G UH D M AO R N IY NG
+G IY D M AO R N IY NG
+
+HE IS A CREATURE OF PHEW WORDS
+8
+HE [IY Z EY K R IY CH ER] OF PHEW WORDS
+HE [IY Z ER K R IY CH ER] OF PHEW WORDS
+HE IS [ER K R IY CH ER AH V] PHEW WORDS
+HE IS A [K R IY CH ER AH V F Y UW] WORDS
+[HH IY IY Z ER] CREATURE OF PHEW WORDS
+HE IS [EY K R IY CH ER AH V] PHEW WORDS
+[HH IY IY Z EY] CREATURE OF PHEW WORDS
+HE IS A CREATURE [AH V F Y UW W ER D Z]
+
+```
 #### .raw
-##### Format
-##### Example lines
+See [.parsed](#parsed).
 
 [Back to table of contents](#table-of-contents)
 ### Output
 #### .parsed
 ##### Format
+Format type: A set of lines for each entry succeeded by a empty line.
+
+Each entry:
+```
+<Sentence>
+<Number of Matches>
+<Words>
+<Words>
+<Words>
+.
+.
+.
+
+```
+Comments:
+* The sentence is the original sentence from the test file.
+* The words are the words composing the phonetic match.
 ##### Example lines
+```
+GOOD MORNING
+6
+GOOD MORN ING
+GOOD MORN NG
+GOOD MORNING
+GOOD MOURN ING
+GOOD MOURN NG
+GOOD MOURNING
+
+```
+
 #### .eval
 ##### Format
 ##### Example lines
