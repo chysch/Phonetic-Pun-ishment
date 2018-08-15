@@ -1,12 +1,12 @@
 # Phonetic-Pun-ishment
 A system for finding homophonic puns.
 ## Table of Contents
-1. [Requirements](#Requirements)
-2. [How to use](#How-to-use)
-    1. [Installing Python](#Installing-Python)
-    2. [Installing NLTK](#Installing-NLTK)
-    3. [Running the Project](#Running-the-Project)
-3. [File Formats](#File-Formats)
+1. [Requirements](#requirements)
+2. [How to use](#how-to-use)
+    1. [Installing Python](#installing-python)
+    2. [Installing NLTK](#installing-nltk)
+    3. [Running the Project](#running-the-project)
+3. [File Formats](#file-formats)
 ## Requirements
 * Python 3.X
 * Internet connection
