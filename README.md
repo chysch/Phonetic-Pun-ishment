@@ -1,5 +1,12 @@
 # Phonetic-Pun-ishment
 A system for finding homophonic puns.
+## Table of Contents
+1. [Requirements](#Requirements)
+2. [How to use](#How-to-use)
+    1. [Installing Python](#Installing-Python)
+    2. [Installing NLTK](#Installing-NLTK)
+    3. [Running the Project](#Running-the-Project)
+3. [File Formats](#File-Formats)
 ## Requirements
 * Python 3.X
 * Internet connection
@@ -112,4 +119,4 @@ Explanation:
 - RULE file: The name of a file with ".rule" extension with the hyper-parameter values to use.
 - DICT files: The names of one or more phonetic dictionary files in plain text.
 
-### File Formats
+## File Formats
