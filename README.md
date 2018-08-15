@@ -7,6 +7,9 @@ A system for finding homophonic puns.
     2. [Installing NLTK](#installing-nltk)
     3. [Running the Project](#running-the-project)
 3. [File Formats](#file-formats)
+    1. [Input](#input)
+    2. [Intermediate](#intermediate)
+    3. [Output](#output)
 ## Requirements
 * Python 3.X
 * Internet connection
@@ -209,6 +212,8 @@ Sent#Trunc:500000
 #### Gold files (.gold or .txt or other plain text)
 ##### Format
 ##### Example lines
+
+[Back to table of contents](#table-of-contents)
 ### Intermediate
 #### .fore
 ##### Format
@@ -222,6 +227,8 @@ Sent#Trunc:500000
 #### .raw
 ##### Format
 ##### Example lines
+
+[Back to table of contents](#table-of-contents)
 ### Output
 #### .parsed
 ##### Format
