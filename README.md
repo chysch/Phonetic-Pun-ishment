@@ -217,6 +217,7 @@ Each entry:
 Comments:
 * All the letters must be uppercase.
 * The sentence must be without punctuation.
+* The sentence should be a complete sentence. If only a sentence fragment is submitted the results will not be sufficiently good.
 ##### Example lines
 #### Gold files (.gold or .txt or other plain text)
 See [.parsed](#parsed).
