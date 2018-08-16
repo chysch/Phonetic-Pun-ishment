@@ -219,6 +219,10 @@ Comments:
 * The sentence must be without punctuation.
 * The sentence should be a complete sentence. If only a sentence fragment is submitted the results will not be sufficiently good.
 ##### Example lines
+```
+HAVE A GOOD MORNING
+DOLPHINS DON'T SPEAK WELSH ONLY WALES
+```
 #### Gold files (.gold or .txt or other plain text)
 See [.parsed](#parsed).
 
