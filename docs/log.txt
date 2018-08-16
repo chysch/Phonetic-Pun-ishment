@@ -112,3 +112,7 @@ August 14:
     twice AW (e.g. "how owl" sounding HH AW AW L) won't stick. It seems that cases 2 and 4 must be simplified to specific 
     rules for the phonemes which can stick. The problem is that there are too many cases like that to conveniently write 
     rules for all of them. Might need cleverly written rules to easily cover many cases.
+
+August 16:
+    Because of problems with the online parser we decided to limit our project to whole sentences. Now "GOOD MORNING" will 
+    become "HAVE A GOOD MORNING" etc.
