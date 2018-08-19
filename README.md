@@ -192,9 +192,10 @@ Comments:
 ```
 <Domain>#<Key>:<Value>
 ```
-* Keys: Threshold, Sticky, Trunc
+* Keys: Threshold, Sticky, StickyAddSkip, Trunc
 * Threshold value is an integer. It indicates the maximal number of consequent words tested for multiple meaning.
-* Sticky value is None (default), Phon, Word or Both.
+* Sticky value is None (default), Add, Rem or Both.
+* StickyAddSkip is a list of phonemes seperated by spaces. Only relevant if Sticky is Add or Both.
 * Trunc value is an integer. It indicates the maximal number of matches to find for a sentence.
 ##### Example lines
 ```
@@ -204,6 +205,7 @@ Phon#Replace,any:IY AH,IH R
 Word#WordNetFilter
 Sent#Threshold:5
 Sent#Sticky:Both
+Sent#StickyAddSkip:AW AI CH ER EY NG OW OY
 Sent#Trunc:500000
 ```
 #### Test files (.test or .txt or other plain text)
