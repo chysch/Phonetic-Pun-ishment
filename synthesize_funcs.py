@@ -58,16 +58,24 @@ class MatchMaker:
     #     3. Max. number of matches to return or 0 to ignore
     def __init__(self, back, phon, rules):
         self.back = back
+        self.onePhonWords = self.MakeOnePhonList()
         self.phons = phon
         self.trunc = 0
         if 'Trunc' in rules:
             self.trunc = int(rules['Trunc'])
-        self.sticky = 'None'
+        self.stickyAdd = False
+        self.stickyRem = False
         if 'Sticky' in rules:
-            self.sticky = rules['Sticky']
-        self.s_types = {\
-            'None':0,'Word':1,'Phon':2,'Both':3}
-        self.sticky = self.s_types[self.sticky]
+            if rules['Sticky']=='Both'\
+               or rules['Sticky']=='Add':
+                self.stickyAdd = True
+            if rules['Sticky']=='Both'\
+               or rules['Sticky']=='Rem':
+                self.stickyRem = True
+        if 'StickyAddSkip' in rules:
+            self.stickyAddSkip = rules['StickyAddSkip']\
+                                 .split(' ')
+            self.stickyAddSkip = set(self.stickyAddSkip)
 
     # Traverses the back tree on a given route returning
     # the node at the end of the route or None.
@@ -78,6 +86,15 @@ class MatchMaker:
                 return None
             node = node.Child(step)
         return node
+
+    def MakeOnePhonList(self):
+        res = []
+        for node in self.back.children:
+            for child in node.children:
+                if child.data.type == 'word':
+                    res.append(node.data.label)
+        res = list(set(res))
+        return res
 
     # Calculates the phonetically matching sentences for
     # the phoneme list.
@@ -117,20 +134,18 @@ class MatchMaker:
                 if child.data.type == 'word':
                     full_match = top[2]
                     if not full_match == '':
-                        full_match = full_match + ' '
+                        full_match = full_match + ' '                        
                     full_match = full_match + child.data.label
                     trio = ([], top[1], full_match)
                     Q.put(trio)
                     # Handle "Sticky Words"
-                    if self.sticky&self.s_types['Word']>0:
+                    if self.stickyAdd:
                         A = self.phons[top[1]-1]
                         B = self.phons[top[1]]
-                        if A != B:
-                            i = top[1]-1
-                        else:
-                            i = top[1]+1
-                        if i >= 0 and i < len(self.phons):
-                            trio = ([], i, full_match)
+                        if A != B and \
+                           not A in self.stickyAddSkip and\
+                           not A in self.onePhonWords:
+                            trio = ([], top[1]-1, full_match)
                             Q.put(trio)
 
             # Case 3: Existing word start
@@ -140,7 +155,7 @@ class MatchMaker:
                 trio = (route, top[1]+1, top[2])
                 Q.put(trio)
                 # Handle "Sticky Words"
-                if self.sticky&self.s_types['Phon']>0:
+                if self.stickyRem:
                     if top[1]+1 < len(self.phons):
                         B = self.phons[top[1]]
                         C = self.phons[top[1]+1]

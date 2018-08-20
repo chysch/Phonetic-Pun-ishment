@@ -3,5 +3,5 @@ Phon#Replace,end:ER,AH
 Phon#Replace,any:IY AH,IH R
 Word#WordNetFilter
 Sent#Threshold:5
-Sent#Doubles:Both
+Sent#Sticky:Both
 Sent#Trunc:500000

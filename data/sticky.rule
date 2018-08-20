@@ -5,4 +5,5 @@ Word#WordNetFilter
 Sent#Threshold:3
 
 Sent#Trunc:100000
-Sent#Sticky:Phon
+Sent#Sticky:Both
+Sent#StickyAddSkip:AW AI CH ER EY NG OW OY
