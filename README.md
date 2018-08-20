@@ -1,5 +1,5 @@
 # Phonetic-Pun-ishment
-**_Calling our puns gay doesn't really do them justice because it limits them to homo-graphic one, so we decided to call them punishing instead._**
+**_Calling our puns gay doesn't really do them justice because it limits them to homo-graphic ones, so we decided to call them pun-ishing instead._**
 
 A system for detecting homophonic puns.
 ## Table of Contents
