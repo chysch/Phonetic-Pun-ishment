@@ -1,5 +1,6 @@
 # Phonetic-Pun-ishment
-A system for finding homophonic puns.
+**_Calling our puns gay doesn't really do them justice because it limits them to homo-graphic one, so we decided to call them punishing instead._**
+A system for detecting homophonic puns.
 ## Table of Contents
 1. [Requirements](#requirements)
 2. [How to use](#how-to-use)
