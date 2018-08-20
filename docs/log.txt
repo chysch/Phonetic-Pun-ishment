@@ -116,3 +116,10 @@ August 14:
 August 16:
     Because of problems with the online parser we decided to limit our project to whole sentences. Now "GOOD MORNING" will 
     become "HAVE A GOOD MORNING" etc.
+
+August 20:
+    Discovered that the Memory Error in cases 2 and 4 of "Sticky Words" was caused by too much doubling of phonemes. Added a 
+    hyper-parameter for phonemes to skip because they will never be "swallowed". Still had the error. Discovered that the 
+    error was actually caused by one-phoneme words (like E or A). Made an automatic skip for such cases and solved the 
+    memory error. Unfortunately the solution isn't final because those words are composed of phonemes which might actually
+    be relevant for a "Sticky Words" case. Leaving handling of such cases for later.
