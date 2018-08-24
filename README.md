@@ -376,16 +376,16 @@ the number of false negatives (when score < 1), and the accuracy score that is c
 
 [This formula assumes our worst decoder mistakens for every sentence with all of it's matches, or adds 100 false positive matches for each sentence.]
 ##### Example lines
-
+```
 item				    score
 -----------------------------------------
-somesentence		    0.5
-anothersentence		    1.3
+GOOD MORNING		    0.5
+HE IS A CREATURE OF PHEW WORDS		    1.3
 
 =========================================
 Avarage score:	0.9
 Number of false positives:	1
 Number of false negatives:	1
 Accuracy score:	50.2
-
+```
 [Back to table of contents](#table-of-contents)
