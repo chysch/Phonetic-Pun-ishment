@@ -122,6 +122,24 @@ Explanation:
 - PARSED file: The name of a fully parsed file as created by the Clean stage.
 - GOLD file: The name of a the results expected in the PARSED file.
 
+Explanation for the format of the .EVAL file:
+
+The .EVAL file shows a score table that contains a score for every sentence. The score for a sentence is calculated with the following formula: 
+(number of output sentences in the parsed file)/(number of output sentences in the gold file).
+
+At the end of the table is listed the avarage score of all sentences, the number of false positives (when score > 1), 
+the number of false negatives (when score < 1), and the accuracy score that is calculated in the following way:
+Accuracy score = 100 * (1 - (b/n + e))
+   When:
+        n = number of output sentences in the parsed file, 
+        e = (d - b)/(100*a) if a > 0, 0 otherwise.
+        d = sum of all differences between the scores and the value 1,
+        a = number of false positive,
+        b = number of false negatives
+
+
+[This formula assumes our worst decoder mistakens for every sentence with all of it's matches, or adds 100 false positive matches for each sentence.]
+
 [Back to table of contents](#table-of-contents)
 #### Putting them all together
 We created a script for skipping all the intermediate stages to make the job easier.
