@@ -109,7 +109,7 @@ def PrepareRules(rule_lines):
 def CreateWordSet():
     res = []
     contractions = [\
-        "ain't", "aren't", "can't", "can't've", \
+        "'em", "ain't", "aren't", "can't", "can't've", \
         "'cause", "could've", "couldn't", "couldn't've", \
         "didn't", "doesn't", "don't", "hadn't", \
         "hadn't've", "hasn't", "haven't", "he'd", \
