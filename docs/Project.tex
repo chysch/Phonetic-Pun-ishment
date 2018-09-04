@@ -50,17 +50,25 @@ Creative speakers tend occasionally to instill in their words puns and multiple 
 
 \section{Method}
 
-In order to find homophonic multiplicity in a sentence we decided to break the project into four stages described below. The stages are in a logical order and modular 
+In order to find homophonic multiplicity in a sentence we decided to break the project into four stages described below. The stages are in a logical order and are modular and the basic logic is relevant for many languages. There are various features, however, that work only in English, so some of the modules will need to be changed to allow other languages.
+
+We padded the logical core with a variety of hyper-parameters controlled by a rule plain-text file which can be easily created and modified by the user. These will also be described below. The general idea of most of them is weakening the accuracy of the phonetic match to allow more positive results.
 
 \subsection{Training}
 
-The first stage is preparing a phonetic dictionary. We called this stage Training although it doesn't contain training in the traditional sense. Instead, we take ready clean-text phonetic dictionaries in the CMU dictionary format and prepare our own set of two phonetic dictionaries: A Word-Phoneme dictionary (called Fore) and a Phoneme-Word dictionary (called Back).
+The first stage is preparing a phonetic dictionary. We called this stage Training although it doesn't contain training in the traditional sense (Usually "Training" relates to creating data via statistical analysis). Instead, we take ready clean-text phonetic dictionaries in the CMU dictionary format and prepare our own set of two phonetic dictionaries: A Word-Phoneme dictionary (called Fore) and a Phoneme-Word dictionary (called Back).
+
+This stage is very simple and technical since it only requires reading a set of files and outputting the relevant information into two files. There are however various improvements which can be achieved by applying small modifications to the information as shall be explained in the hyper-parameter section.
 
 \subsection{Analyzing}
+
+The second stage is translating the plain-text test sentences into phonemes. 
 
 \subsection{Synthesizing}
 
 \subsection{Cleaning}
+
+\subsection{Hyper-Parameters}
 
 \section{Results}
 
