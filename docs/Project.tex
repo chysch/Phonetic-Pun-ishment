@@ -62,13 +62,31 @@ This stage is very simple and technical since it only requires reading a set of 
 
 \subsection{Analyzing}
 
-The second stage is translating the plain-text test sentences into phonemes. 
+The second stage is translating the plain-text test sentences into phonemes. In this stage we simply translate the sentences word for word into phonemes. Since there are words with more than one way of translating, the output in this stageis a list of matches for each sentence.
+
+Since puns don't always cover all the words of the sentence (they usually don't), we added functionality to control the amount translated for shorter running time in the next stages. 
 
 \subsection{Synthesizing}
+
+All the preperation done, the next stage is creating a list of new sentences that can be composed out of words that phonetically match the sets of phonemes created in the previous stage. 
+
+To achieve this purpose we created a phoneme search tree with words for leaves that the path to each leaf is the phonemes that compose the word. With this tree the new sentences can easily be created with a simple deterministic recursive function that scans the original phoneme list and traverses the tree to retrieve words. For efficiancy reasons we favored using a stack to which we add each relevant sentence beginning iteratively.
 
 \subsection{Cleaning}
 
 \subsection{Hyper-Parameters}
+
+The rule file required by the user can be empty, but usually will contain values for the hyper-parameters controlling the project. Below the hyper-parameters are listed by name with a short description and motivation.
+
+\subsection*{Replace}
+
+\subsection*{WordNetFilter}
+
+\subsection*{Threshold}
+
+\subsection*{Sticky}
+
+\subsection*{StickyAddSkip}
 
 \section{Results}
 
