@@ -1,0 +1,16 @@
+item				score
+-----------------------------------------
+HAVE A GOOD MORNING			11.0
+HE WON BY A HARE			62.5
+HE SAID LET ME BEE			2.5
+HE DIDN'T SEE THE TREE			296.0
+A PUN CAN DIE			13.5
+NO IDEA			154.0
+HE SAID AYE MATEY			92.5
+THEY PLAN IT			2.5
+
+=========================================
+Avarage score:	79.3125
+Number of false positives:	8
+Number of false negatives:	0
+Accuracy score:	21.687500000000004
