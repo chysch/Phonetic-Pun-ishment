@@ -42,11 +42,19 @@
 
 \begin{document}
 \maketitle
+\small{
+GitHub repository:\\
+github.com/chysch/Phonetic-Pun-ishment}
+
+\hfill
+
 \begin{abstract}
 Creative speakers tend occasionally to instill in their words puns and multiple meanings. When the multiple meaning arises from the sound of the words, namely is caused by saying sounds that can be interpreted as two or more different combinations of words which all make sense in the given context, it is called a homophonic pun. The intention of this project is detection of such puns in given sentences if they exist and indication if not.
 \end{abstract}
 
 \section{Introduction}
+
+Joke generation is one of the hardest problems in the field of artificial intelligence. This is because a joke sometimes rely on not having a totally reasonable meaning, ambiguity in meaning, or exaggeration of reality. As some of these concepts are hard for a machine to recognize like a human mind does, since there is a large amount of data to be considered in order to be able to distinguish between what is a reasonable description of reality and what is not, this project attempts to tackle the ambiguity in meaning as a basis for a joke, and specifically a homophonic multiplicity. We aim to detect such sentences, that are considered as puns, based on their phonetic structure and the sentences that can be derived from it.
 
 \section{Method}
 
@@ -62,31 +70,42 @@ This stage is very simple and technical since it only requires reading a set of 
 
 \subsection{Analyzing}
 
-The second stage is translating the plain-text test sentences into phonemes. In this stage we simply translate the sentences word for word into phonemes. Since there are words with more than one way of translating, the output in this stageis a list of matches for each sentence.
+The second stage is translating the plain-text test sentences into phonemes. In this stage we simply translate the sentences word for word into phonemes. Since there are words with more than one way of translating, the output in this stage is a list of matches for each sentence.
 
 Since puns don't always cover all the words of the sentence (they usually don't), we added functionality to control the amount translated for shorter running time in the next stages. 
 
 \subsection{Synthesizing}
 
-All the preperation done, the next stage is creating a list of new sentences that can be composed out of words that phonetically match the sets of phonemes created in the previous stage. 
+All the preparation done, the next stage is creating a list of new sentences that can be composed out of words that phonetically match the sets of phonemes created in the previous stage. 
 
-To achieve this purpose we created a phoneme search tree with words for leaves that the path to each leaf is the phonemes that compose the word. With this tree the new sentences can easily be created with a simple deterministic recursive function that scans the original phoneme list and traverses the tree to retrieve words. For efficiancy reasons we favored using a stack to which we add each relevant sentence beginning iteratively.
+To achieve this purpose we created a phoneme search tree with words for leaves that the path to each leaf is the phonemes that compose the word. With this tree the new sentences can easily be created with a simple deterministic recursive function that scans the original phoneme list and traverses the tree to retrieve words. For efficiency reasons we favored using a stack to which we add each relevant sentence beginning iteratively.
 
 \subsection{Cleaning}
+
+This stage is responsible for cleaning the output of the previous stage, as at this moment we have a long list of new sentences that match a given sentence. They may match this sentence phonetically, but their validity both syntactically and semantically should be tested and invalid sentences should be removed from the list. 
+\\
+In order to test whether a sentence is valid semantically and syntactically we use some open-source tools. 
+
+\subsubsection{Parsing tree}
+The 'LOGON' tool \cite{Logon} is used to parse a sentence to its derivation tree. This tool help us to indicate whether a sentence is syntactically valid, as in case it doesn't, it retrieves zero parsing trees for the sentence. 
+\subsubsection{Incorrectness intended?}
+Sometimes a sentence may be invalid semantically but this incorrectness is a part of the intended pun. We wish to determine whether this is the case and avoid removing these kind of sentences. This is why we use the Datamuse tool \cite{Datamuse} that helps us to determine whether the problematic word is related to any other word in the sentence. 
+
 
 \subsection{Hyper-Parameters}
 
 The rule file required by the user can be empty, but usually will contain values for the hyper-parameters controlling the project. Below the hyper-parameters are listed by name with a short description and motivation.
 
-\subsection*{Replace}
+\subsubsection{Replace}
 
-\subsection*{WordNetFilter}
+\subsubsection{WordNetFilter}
 
-\subsection*{Threshold}
+\subsubsection{Threshold}
+An integer represents the maximal distance allowed between the length of a given sentence (i.e the number of words in the sentence) and the length of a sentence matched to it phonetically. The bigger this threshold, the stricter is the policy, and matches that differ from the original sentence are dissmissed.
 
-\subsection*{Sticky}
+\subsubsection{Sticky}
 
-\subsection*{StickyAddSkip}
+\subsubsection{StickyAddSkip}
 
 \section{Results}
 
@@ -102,10 +121,25 @@ The closest study we found was done by \citet{jaech_koncel-kedziorski_ostendorf_
 
 \section{Conclusions and Future Work}
 
+\subsection{Validate output sentences semantically}
+This is a part of the Cleaning stage, that removes produced sentences that are invalid semantically or syntactically. As the syntax validation part is being covered with the help of parsing trees analysis, validating semantics of a sentence is a much more complicated task. A need for an efficient tool to detect whether a sentence makes sense, has gradually occurred in the fields of NLP in recent years. The use of statistical techniques is a popular approach and may be used in future work in order to improve the cleaning stage of our project.
+
 % include your own bib file like this:
 %\bibliographystyle{acl}
 %\bibliography{acl2018}
 \bibliography{ProjectBiblio}
 \bibliographystyle{acl_natbib}
+
+\begin{thebibliography}{9}
+
+\bibitem{Logon}
+The LOGON project-  a Norwegian National initiative towards re-usable language technology for Norwegian – English Machine Translation
+\\ http://erg.delph-in.net/logon
+
+\bibitem{Datamuse}
+Datamuse API- a word-finding query engine for developers. 
+\\ http://www.datamuse.com/api/
+
+\end{thebibliography}
 
 \end{document}
