@@ -22,6 +22,9 @@ def Clean(output, raw, rules):
 
     raw_data = PrepareRawData(raw_lines)
 
+    listOfCommonWords = [line.rstrip('\n') for line in open('dicts/engmix.txt')]
+    pronous = getListOfPronounsAndPrepositions()
+
     # Create data
     parsed_lines = []
     for pair in raw_data:
@@ -34,9 +37,12 @@ def Clean(output, raw, rules):
         clean_matches = []
         for match in list_of_matches:
             # print ('can pun? : ' + match)
-            if CanPunctuate(orig_sentence, match, length_threshold):
+            if CanPunctuate(orig_sentence, match, length_threshold, listOfCommonWords, pronous):
                 # print ('-> yes ')
                 clean_matches.append(match)
+            elif IsIncorrectnessIntended(match, orig_sentence, pronous):
+                clean_matches.append(match + " *** Pun Intended ***")
+
             # else:
                 # print ('-> no ')
         clean_matches = list(set(clean_matches))
