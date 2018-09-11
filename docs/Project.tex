@@ -15,8 +15,11 @@
 \usepackage[hyperref]{acl2018}
 \usepackage{times}
 \usepackage{latexsym}
-
+\usepackage{natbib}
 \usepackage{url}
+
+\defcitealias{the_logon_project}{\scshape The LOGON project}
+\defcitealias{datamuse}{\scshape Datamuse API}
 
 %\aclfinalcopy % Uncomment this line for the final submission
 %\def\aclpaperid{***} %  Enter the acl Paper ID here
@@ -28,7 +31,6 @@
 % in the camera-ready version and ask you to change it back.
 
 \newcommand\BibTeX{B{\sc ib}\TeX}
-
 \title{Pun and Multiple Meaning Detection}
 
 \author{Chaim Schendowich \\
@@ -41,10 +43,10 @@
 \date{}
 
 \begin{document}
+
 \maketitle
 \small{
-GitHub repository:\\
-github.com/chysch/Phonetic-Pun-ishment}
+GitHub repository:\\ github.com/chysch/Phonetic-Pun-ishment}
 
 \hfill
 
@@ -87,9 +89,11 @@ This stage is responsible for cleaning the output of the previous stage, as at t
 In order to test whether a sentence is valid semantically and syntactically we use some open-source tools. 
 
 \subsubsection{Parsing tree}
-The 'LOGON' tool \cite{Logon} is used to parse a sentence to its derivation tree. This tool help us to indicate whether a sentence is syntactically valid, as in case it doesn't, it retrieves zero parsing trees for the sentence. 
+The 'Logon' tool \citepalias{the_logon_project} is used to parse a sentence to its derivation tree. This tool help us to indicate whether a sentence is syntactically valid, as in case it doesn't, it retrieves zero parsing trees for the sentence. 
+\subsubsection{Avoid uncommonly used words}
+This filters all produced sentences that use valid English words that are unlikely to be used in an everyday sentence, like acronyms, prefixes, etc.
 \subsubsection{Incorrectness intended?}
-Sometimes a sentence may be invalid semantically but this incorrectness is a part of the intended pun. We wish to determine whether this is the case and avoid removing these kind of sentences. This is why we use the Datamuse tool \cite{Datamuse} that helps us to determine whether the problematic word is related to any other word in the sentence. 
+Sometimes a sentence may be invalid semantically but this incorrectness is a part of the intended pun. We wish to determine whether this is the case and avoid removing these kind of sentences. This is why we use the Datamuse tool \citepalias{datamuse} that helps us to determine whether the problematic word of the incorrect sentence is related to any other word in the original sentence. 
 
 
 \subsection{Hyper-Parameters}
@@ -126,20 +130,20 @@ This is a part of the Cleaning stage, that removes produced sentences that are i
 
 % include your own bib file like this:
 %\bibliographystyle{acl}
-%\bibliography{acl2018}
+% \bibliography{acl2018}
 \bibliography{ProjectBiblio}
 \bibliographystyle{acl_natbib}
 
-\begin{thebibliography}{9}
+% \begin{thebibliography}{9}
 
-\bibitem{Logon}
-The LOGON project-  a Norwegian National initiative towards re-usable language technology for Norwegian – English Machine Translation
-\\ http://erg.delph-in.net/logon
+% \bibitem{the_logon_project}
+% The LOGON project - a Norwegian National initiative towards re-usable language technology for Norwegian – English Machine Translation
+% \\ http://erg.delph-in.net/logon
 
-\bibitem{Datamuse}
-Datamuse API- a word-finding query engine for developers. 
-\\ http://www.datamuse.com/api/
+% \bibitem{Datamuse}
+% Datamuse API- a word-finding query engine for developers. 
+% \\ http://www.datamuse.com/api/
 
-\end{thebibliography}
+% \end{thebibliography}
 
 \end{document}
