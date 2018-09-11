@@ -60,13 +60,13 @@ def CanPunctuate(orig_sentence, match, length_threshold, listOfCommonWords, pron
 def IsSyntacticallyValid(sentence):
     #print sentence.strip()
 
-    # parsing = GetGrammticalParsingOfSentence(sentence)
-    # n = GetNumOfParsingAnalyses(parsing)
+    parsing = GetGrammticalParsingOfSentence(sentence)
+    n = GetNumOfParsingAnalyses(parsing)
 
     #print n
 
-    # return (n > 0)
-    return True
+    return (n > 0)
+    # return True
 
 # Returns True iff a given sentence is semantically valid.
 def IsSemanticallyValid(listOfCommonWords, sentence, pronouns):
@@ -117,24 +117,24 @@ def getDifferIndices(original_words, sentence_words):
 # Returns True iff a given sentence is invalid with an intention
 # of humorous effect, and a word-play was in place.
 def IsIncorrectnessIntended(sentence, original, ignore_words):
-    # sentence_words = sentence.split(' ');
-    # original_words = original.split(' ');
-    #
-    # differ_indices = getDifferIndices(original_words, sentence_words)
-    #
-    # if len(differ_indices) > 0:
-    #     differ_words = getAllWordsBetweenIndices(sentence_words, differ_indices[0],  differ_indices[len(differ_indices)-1])
-    #
-    #     for word in differ_words:
-    #         if (word.strip() not in ignore_words):
-    #             relatedWords = GetRelatedWordsOfAWord(word)
-    #             for orig_word in original_words:
-    #                 if (orig_word.lower() != word.lower() \
-    #                 and orig_word.lower().find(word.lower()) == -1 \
-    #                 and word.lower().find(orig_word.lower()) == -1 \
-    #                 and orig_word.lower() in relatedWords):
-    #                     print (orig_word + " is a related word to  " + word + ". Pun intended.")
-    #                     return True
+    sentence_words = sentence.split(' ');
+    original_words = original.split(' ');
+
+    differ_indices = getDifferIndices(original_words, sentence_words)
+
+    if len(differ_indices) > 0:
+        differ_words = getAllWordsBetweenIndices(sentence_words, differ_indices[0],  differ_indices[len(differ_indices)-1])
+
+        for word in differ_words:
+            if (word.strip() not in ignore_words):
+                relatedWords = GetRelatedWordsOfAWord(word)
+                for orig_word in original_words:
+                    if (orig_word.lower() != word.lower() \
+                    and orig_word.lower().find(word.lower()) == -1 \
+                    and word.lower().find(orig_word.lower()) == -1 \
+                    and orig_word.lower() in relatedWords):
+                        print (orig_word + " is a related word to  " + word + ". Pun intended.")
+                        return True
     return False
 
 # Returns a list of correctly punctuated sentences for a
@@ -261,7 +261,9 @@ def IsWordInCommonUse(listOfCommonWords, word):
 def IsSentenceInCommonUse(listOfCommonWords, sentence, pronouns):
     sentence_words = sentence.split(' ');
     for word in sentence_words:
-        if (not IsWordInCommonUse(listOfCommonWords, word.lower().strip()) and word.lower().strip() not in pronouns):
-            print ("Word: " + word + " is not in common use\n")
+        is_common = IsWordInCommonUse(listOfCommonWords, word.lower().strip())
+        is_pronounce = word.strip().lower() in (p.lower() for p in pronouns)
+        if (not is_common and not is_pronounce):
+            # print ("Word: " + word.strip() + " is not in common use\n")
             return False
     return True

@@ -47,21 +47,26 @@ def Evaluate(output, test, gold):
 def PrepareEvalFile(test_data, gold_data):
     res = []
     total_score = 0
+    total_test = 0
+    total_gold = 0
     false_pos_count = 0
     false_neg_count = 0
     error = 0
 
     res.append('item')
-    res.append('\t\t\t\t')
-    res.append('score')
+    res.append('\t\t\t\t\t')
+    res.append('score (amount of matches in tests relatively to gold)')
     res.append('\n')
-    res.append('-----------------------------------------')
+    res.append('--------------------------------------------------------------------------')
     res.append('\n')
 
     i = 0
     while i < len(test_data):
         test_item = test_data[i]
         gold_item = gold_data[i]
+
+        total_test = total_test + len(test_item[1])
+        total_gold = total_gold + len(gold_item[1])
 
         sentence = test_item[0].strip()
         res.append(sentence)
@@ -80,20 +85,22 @@ def PrepareEvalFile(test_data, gold_data):
         total_score = total_score + score
         error = error + abs(score - 1)
 
-        if score > 1:
-            false_pos_count = false_pos_count + 1
-        if score < 1:
-            false_neg_count = false_neg_count + 1
+        for match in test_item[1]:
+            if (match not in gold_item[1]):
+                false_pos_count = false_pos_count + 1
+
+        for match in gold_item[1]:
+            if (match not in test_item[1]):
+                print(match.strip() + " did not matched for "+gold_item[0].strip())
+                false_neg_count = false_neg_count + 1
+
         i = i+1
 
     avg = total_score/len(test_data)
 
-    # Clculate some accuracy - temporary draft
-    # lets assume our worst decoder mistakens for every sentence
-    # with all of it's matches, or adds 100 false positive matches for each sentence
-    false_neg_error = false_neg_count/len(test_data)
-    false_pos_error = 0 if false_pos_count == 0 else (error - false_neg_count)/(100*false_pos_count)
-    accuracy = 100 * (1 - (false_neg_error + false_pos_error))
+    false_neg_error = false_neg_count/total_gold
+    false_pos_error = false_pos_count/total_test
+    accuracy = 100 * (1 - (false_neg_error + false_pos_error)/2)
 
     res.append('\n')
     res.append('=========================================')

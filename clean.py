@@ -22,7 +22,7 @@ def Clean(output, raw, rules):
 
     raw_data = PrepareRawData(raw_lines)
 
-    listOfCommonWords = [line.rstrip('\n') for line in open('dicts/engmix.txt')]
+    listOfCommonWords = [line.rstrip('\n') for line in open('dicts/common_words.txt')]
     pronous = getListOfPronounsAndPrepositions()
 
     # Create data

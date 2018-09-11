@@ -8,6 +8,7 @@ as
 both
 did
 didn't
+don't
 each
 either
 everybody
@@ -25,6 +26,7 @@ him
 himself
 his
 I
+I'm
 it
 its
 itself
@@ -84,7 +86,9 @@ whomever
 whose
 ye
 you
+you've
 your*
 yours
 yourself
 yourselves
+'em
