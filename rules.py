@@ -1,3 +1,5 @@
+import nltk
+nltk.download('wordnet')
 from nltk.corpus import wordnet
 import nltk.corpus
 
@@ -52,7 +54,7 @@ def RuleReplace(rule, line):
     return res
 
 # Rule: Test WordNet to see if word exists there.
-def RuleWordNetFilter(rule, line):   
+def RuleWordNetFilter(rule, line):
     if line[0] in RuleWordNetFilter.words:
         return line
     if len(wordnet.synsets(line[0])) == 0:

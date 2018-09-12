@@ -15,6 +15,7 @@ def Clean(output, raw, rules):
     rule_file.close()
     sent_rules = PrepareRules(rule_lines)[2]
     length_threshold = int(sent_rules['Threshold'])
+    online_mode = True if sent_rules['OnlineMode'].lower() == 'on' else False
 
     raw_file = open(raw, 'r')
     raw_lines = raw_file.readlines()
@@ -37,10 +38,10 @@ def Clean(output, raw, rules):
         clean_matches = []
         for match in list_of_matches:
             # print ('can pun? : ' + match)
-            if CanPunctuate(orig_sentence, match, length_threshold, listOfCommonWords, pronous):
+            if CanPunctuate(orig_sentence, match, length_threshold, listOfCommonWords, pronous, online_mode):
                 # print ('-> yes ')
                 clean_matches.append(match)
-            elif IsIncorrectnessIntended(match, orig_sentence, pronous):
+            elif IsIncorrectnessIntended(match, orig_sentence, pronous, online_mode):
                 clean_matches.append(match + " *** Pun Intended ***")
 
             # else:

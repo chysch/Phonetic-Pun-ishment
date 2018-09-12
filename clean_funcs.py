@@ -8,22 +8,13 @@ from urllib.parse import urlencode
 from random import randint
 from time import sleep
 
-
-# to use After The Deadline API:
-
-# import ATD
-
-# to use Google search:
-
-from googlesearch import search
-
 # to use nltk parsing:
 
-# import nltk
-# nltk.download('punkt')
-# nltk.download('averaged_perceptron_tagger')
-# nltk.download('maxent_ne_chunker')
-# nltk.download('words')
+import nltk
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('maxent_ne_chunker')
+nltk.download('words')
 
 
 # Creates a sentence match list from the lines of a
@@ -48,105 +39,82 @@ def PrepareRawData(raw_lines):
 
 # Returns True iff a given list of words can be punctuated
 # correctly and logically and False otherwise.
-def CanPunctuate(orig_sentence, match, length_threshold, listOfCommonWords, pronouns):
-    length_diff = abs(len(match.split(' ')) - len(orig_sentence.split(' ')))
-    # print ('length_diff: ' + str(length_diff))
-    if length_diff >= length_threshold:
+def CanPunctuate(orig_sentence, match, length_threshold, listOfCommonWords, pronouns, online_mode):
+    if (isMatchLengthExceedsThreshold(match, orig_sentence, length_threshold)):
+        print ("Match: " + match.strip() + " length exceeds threshold. Dismissed.")
         return False
 
-    return (IsSyntacticallyValid(match) and IsSemanticallyValid(listOfCommonWords, match, pronouns))
+    return (IsSyntacticallyValid(match, online_mode) and IsSemanticallyValid(listOfCommonWords, match, pronouns))
+
+def isMatchLengthExceedsThreshold(match, orig_sentence, length_threshold):
+    length_diff = abs(len(match.split(' ')) - len(orig_sentence.split(' ')))
+    if length_diff >= length_threshold:
+        return True
+    return False
 
 # Returns True iff a given sentence is syntactically valid.
-def IsSyntacticallyValid(sentence):
+def IsSyntacticallyValid(sentence, online_mode):
     #print sentence.strip()
 
-    parsing = GetGrammticalParsingOfSentence(sentence)
-    n = GetNumOfParsingAnalyses(parsing)
+    if (online_mode):
+    #LOGON parsing
+        parsing = GetGrammticalParsingOfSentenceByLogon(sentence)
+        n = GetNumOfParsingAnalysesLogon(parsing)
 
-    #print n
+        return (n > 0)
+    else:
+    # NLTK parsing:
+        tokens = nltk.word_tokenize(sentence.strip().lower())
+        tagged = nltk.pos_tag(tokens)
+        entities = nltk.chunk.ne_chunk(tagged)
+        height = entities.height()
+        # print(sentence.strip().lower() + ": \ntaggs: " + str(tagged) + "\n tree: " + str(entities)+ " -> len: "+str(len(entities))+" -> height: "+height +" -> ")
+        return IsValidTagging(tagged, height)
 
-    return (n > 0)
-    # return True
+def IsValidTagging(tags, height):
+    if (height < 2):
+        return False
+
+    #See if not all taggs are 'NNP'
+    for tag in tags:
+        if (not tag[1] == 'NNP'):
+            return True
+    return False
 
 # Returns True iff a given sentence is semantically valid.
 def IsSemanticallyValid(listOfCommonWords, sentence, pronouns):
-    # NLTK parsing:
-
-    # tokens = nltk.word_tokenize(sentence)
-    # tagged = nltk.pos_tag(tokens)
-    # entities = nltk.chunk.ne_chunk(tagged)
-    # print(sentence + ": \n" + str(entities))
-
-    # Google search:
-
-    # sleep(randint(10,100))
-    #
-    # params = {'filter': '0', 'lr': 'lang_en'}
-    # results = search("\"" + sentence.strip() + "\"", stop=3, only_standard=True, extra_params=params, pause=2)
-    # num_results = len(list(results))
-    # if (num_results > 0):
-    #     print (sentence.strip() + ": " +str(num_results)+ " results \n ")
-    #     return True
-    # return False
-
-
-    # ATD parsing:
-
-    # ATD.setDefaultKey("Phonetic-Pun-ishment")
-    # errors = ATD.checkDocument("Looking too the water. Fixing your writing typoss.")
-    # for error in errors:
-    #     print (str(error.type) + " error for: "+error.precontext+" **"+error.string+"**")
-
-    # return GetSearchResults(sentence) > 0
-
     return IsSentenceInCommonUse(listOfCommonWords, sentence, pronouns)
 
-def getAllWordsBetweenIndices(sentence_words, start, end):
-    words = sentence_words[start:end+1]
-    return words
-
-def getDifferIndices(original_words, sentence_words):
-    start = 0
-    while (start < len(original_words) and start < len(sentence_words) and original_words[start] == sentence_words[start]):
-        start = start + 1
-    end = 0
-    while (end < len(original_words) and end < len(sentence_words) and original_words[len(original_words) - end-1] == sentence_words[len(sentence_words) - end-1]):
-        end = end + 1
-    return [i for i in range(start, end+1)]
-
-# Returns True iff a given sentence is invalid with an intention
-# of humorous effect, and a word-play was in place.
-def IsIncorrectnessIntended(sentence, original, ignore_words):
+def IsSentenceInCommonUse(listOfCommonWords, sentence, pronouns):
     sentence_words = sentence.split(' ');
-    original_words = original.split(' ');
+    for word in sentence_words:
+        is_common = IsWordInCommonUse(listOfCommonWords, word.lower().strip())
+        is_pronounce = word.strip().lower() in (p.lower() for p in pronouns)
+        if (not is_common and not is_pronounce):
+            # print ("Word: " + word.strip() + " is not in common use\n")
+            return False
+    return True
 
-    differ_indices = getDifferIndices(original_words, sentence_words)
-
-    if len(differ_indices) > 0:
-        differ_words = getAllWordsBetweenIndices(sentence_words, differ_indices[0],  differ_indices[len(differ_indices)-1])
-
-        for word in differ_words:
-            if (word.strip() not in ignore_words):
-                relatedWords = GetRelatedWordsOfAWord(word)
-                for orig_word in original_words:
-                    if (orig_word.lower() != word.lower() \
-                    and orig_word.lower().find(word.lower()) == -1 \
-                    and word.lower().find(orig_word.lower()) == -1 \
-                    and orig_word.lower() in relatedWords):
-                        print (orig_word + " is a related word to  " + word + ". Pun intended.")
-                        return True
+def IsWordInCommonUse(listOfCommonWords, word):
+    # Binary search throught alphabetically sorted list of words
+    start = 0
+    end = len(listOfCommonWords) - 1
+    while start <= end:
+        middle = (start + end)// 2
+        midpoint = listOfCommonWords[middle]
+        if midpoint > word:
+            end = middle - 1
+        elif midpoint < word:
+            start = middle + 1
+        elif midpoint == word:
+            return True
+        else:
+            return False
     return False
-
-# Returns a list of correctly punctuated sentences for a
-# given unpunctuated sentence.
-def GetPunctuations(match):
-    res = []
-    res.append(match)
-    return res
 
 # Makes a call to LOGON api to retrieve a list of gramatical
 # parsing analysis of a given sentence.
-def GetGrammticalParsingOfSentence(sentence):
+def GetGrammticalParsingOfSentenceByLogon(sentence):
     parserUrl = 'http://erg.delph-in.net/logon'
 
     #print sentence.strip()
@@ -193,12 +161,51 @@ def GetGrammticalParsingOfSentence(sentence):
 
 # Parses the given response of the form "0 of 2 analyses" to extract the result
 # of parsing analyses and returns the number of total analyses.
-def GetNumOfParsingAnalyses(response):
+def GetNumOfParsingAnalysesByLogon(response):
     fullAnalysisInfo = re.search('<div id=summary>\[(.*)analys', response)
     if fullAnalysisInfo is None:
         return 0
     numOfAnalysis = re.search('([0-9]+) of ([0-9]+)', fullAnalysisInfo.group(1)).group(2)
     return int(numOfAnalysis)
+
+# Returns True iff a given sentence is invalid with an intention
+# of humorous effect, and a word-play was in place.
+def IsIncorrectnessIntended(sentence, original, ignore_words, online_mode):
+    if (not online_mode):
+        return False
+
+    sentence_words = sentence.split(' ');
+    original_words = original.split(' ');
+
+    differ_indices = getDifferIndices(original_words, sentence_words)
+
+    if len(differ_indices) > 0:
+        differ_words = getAllWordsBetweenIndices(sentence_words, differ_indices[0],  differ_indices[len(differ_indices)-1])
+
+        for word in differ_words:
+            if (word.strip() not in ignore_words):
+                relatedWords = GetRelatedWordsOfAWord(word)
+                for orig_word in original_words:
+                    if (orig_word.lower() != word.lower() \
+                    and orig_word.lower().find(word.lower()) == -1 \
+                    and word.lower().find(orig_word.lower()) == -1 \
+                    and orig_word.lower() in relatedWords):
+                        print (orig_word + " is a related word to  " + word + ". Pun intended.")
+                        return True
+    return False
+
+def getAllWordsBetweenIndices(sentence_words, start, end):
+    words = sentence_words[start:end+1]
+    return words
+
+def getDifferIndices(original_words, sentence_words):
+    start = 0
+    while (start < len(original_words) and start < len(sentence_words) and original_words[start] == sentence_words[start]):
+        start = start + 1
+    end = 0
+    while (end < len(original_words) and end < len(sentence_words) and original_words[len(original_words) - end-1] == sentence_words[len(sentence_words) - end-1]):
+        end = end + 1
+    return [i for i in range(start, end+1)]
 
 # Makes a call to DataMuse API to retrieve a list of related words
 # for a given word.
@@ -221,49 +228,3 @@ def GetRelatedWordsOfAWord(word):
             listOfWords.append(item.get("word"))
 
     return listOfWords
-
-def GetSearchResults(sentence):
-    query = sentence.strip().lower()
-    query = query.replace(' ', '+')
-    query = "\"" + query + "\""
-    url = 'http://search-api.herokuapp.com/search?q='
-    # response = requests.get(url + word)
-    # return response.json()
-    req = urllib.request.Request(url + query)
-    res = urllib.request.urlopen(req).read().decode()
-
-    total_results = -1
-
-    jsonResponse = json.loads(res)
-    if (jsonResponse["total_results"] is not None):
-        total_results = int(jsonResponse["total_results"])
-    print (sentence.strip() + ": " +str(total_results)+ " results \n ")
-
-    return total_results
-
-def IsWordInCommonUse(listOfCommonWords, word):
-    # Binary search throught alphabetically sorted list of words
-    start = 0
-    end = len(listOfCommonWords) - 1
-    while start <= end:
-        middle = (start + end)// 2
-        midpoint = listOfCommonWords[middle]
-        if midpoint > word:
-            end = middle - 1
-        elif midpoint < word:
-            start = middle + 1
-        elif midpoint == word:
-            return True
-        else:
-            return False
-    return False
-
-def IsSentenceInCommonUse(listOfCommonWords, sentence, pronouns):
-    sentence_words = sentence.split(' ');
-    for word in sentence_words:
-        is_common = IsWordInCommonUse(listOfCommonWords, word.lower().strip())
-        is_pronounce = word.strip().lower() in (p.lower() for p in pronouns)
-        if (not is_common and not is_pronounce):
-            # print ("Word: " + word.strip() + " is not in common use\n")
-            return False
-    return True
