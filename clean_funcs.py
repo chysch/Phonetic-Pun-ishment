@@ -41,7 +41,7 @@ def PrepareRawData(raw_lines):
 # correctly and logically and False otherwise.
 def CanPunctuate(orig_sentence, match, length_threshold, listOfCommonWords, pronouns, online_mode):
     if (isMatchLengthExceedsThreshold(match, orig_sentence, length_threshold)):
-        print ("Match: " + match.strip() + " length exceeds threshold. Dismissed.")
+        # print ("Match: " + match.strip() + " length exceeds threshold. Dismissed.")
         return False
 
     return (IsSyntacticallyValid(match, online_mode) and IsSemanticallyValid(listOfCommonWords, match, pronouns))

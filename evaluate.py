@@ -55,7 +55,7 @@ def PrepareEvalFile(test_data, gold_data):
 
     res.append('item')
     res.append('\t\t\t\t\t')
-    res.append('score (amount of matches in tests relatively to gold)')
+    res.append('score (amount of matches in test relatively to gold)')
     res.append('\n')
     res.append('--------------------------------------------------------------------------')
     res.append('\n')
@@ -91,7 +91,7 @@ def PrepareEvalFile(test_data, gold_data):
 
         for match in gold_item[1]:
             if (match not in test_item[1]):
-                print(match.strip() + " did not matched for "+gold_item[0].strip())
+                # print(match.strip() + " did not matched for "+gold_item[0].strip())
                 false_neg_count = false_neg_count + 1
 
         i = i+1
@@ -107,7 +107,7 @@ def PrepareEvalFile(test_data, gold_data):
     res.append('\n')
     res.append('Avarage score:')
     res.append('\t')
-    res.append(str(avg))
+    res.append(str("%.2f" % avg))
     res.append('\n')
     res.append('Number of false positives:')
     res.append('\t')
@@ -119,7 +119,7 @@ def PrepareEvalFile(test_data, gold_data):
     res.append('\n')
     res.append('Accuracy score:')
     res.append('\t')
-    res.append(str(accuracy))
+    res.append(str("%.2f" % accuracy))
     res.append('\n')
 
     return res

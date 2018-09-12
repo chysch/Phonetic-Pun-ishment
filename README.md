@@ -140,6 +140,10 @@ Explanation:
 - RULE file: The name of a file with ".rule" extension with the hyper-parameter values to use.
 - DICT files: The names of one or more phonetic dictionary files in plain text.
 
+Example:
+
+full_run.py example1 data/short.test data/short.gold data/sticky.rule dicts/cmudict_SPHINX_40.txt
+
 [Back to table of contents](#table-of-contents)
 ## File Formats
 ### Input
@@ -206,6 +210,7 @@ Phon#Replace,end:ER,AH
 Phon#Replace,any:IY AH,IH R
 Word#WordNetFilter
 Sent#Threshold:5
+Sent#OnlineMode:off
 Sent#Sticky:Both
 Sent#StickyAddSkip:AW AI CH ER EY NG OW OY
 Sent#Trunc:500000
@@ -361,31 +366,31 @@ The .EVAL file shows a score table that contains a score for every sentence. The
     n = number of output sentences in the parsed file
     g = number of output sentences in the gold file
 
-At the end of the table is listed the avarage score of all sentences, the number of false positives (when score > 1), 
-the number of false negatives (when score < 1), and the accuracy score that is calculated in the following way:
+At the end of the table is listed the avarage score of all sentences, the number of false positives, 
+the number of false negatives, and the accuracy score that is calculated in the following way:
     
-    Accuracy score = 100 * (1 - (b/n + e))
+    Accuracy score = 100 * (1 - (a/t + b/g)/2)
     
     Where:
-        n = number of input sentences
-        e = (d - b)/(100*a) if a > 0, 0 otherwise
-        d = sum of all differences between the scores and the value 1
-        a = number of false positive
-        b = number of false negatives
+        t = total amount of results in test file
+        g = total amount of results in gold file
+        a = number of false positivs
+        b = number of false negativs
 
 
-[This formula assumes our worst decoder mistakens for every sentence with all of it's matches, or adds 100 false positive matches for each sentence.]
 ##### Example lines
 ```
-item				    score
------------------------------------------
-GOOD MORNING		    0.5
-HE IS A CREATURE OF PHEW WORDS		    1.3
+item					score (amount of matches in test relatively to gold)
+--------------------------------------------------------------------------
+HAVE A GOOD MORNING			9.5
+HE WON BY A HARE			32.0
+HE SAID LET ME BE			1.5
+HE SAID AYE MATEY			34.0
 
 =========================================
-Avarage score:	0.9
-Number of false positives:	1
+Avarage score:	19.25
+Number of false positives:	147
 Number of false negatives:	1
-Accuracy score:	50.2
+Accuracy score:	46.02
 ```
 [Back to table of contents](#table-of-contents)
