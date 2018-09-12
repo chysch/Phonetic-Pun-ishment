@@ -47,7 +47,9 @@
 
 \maketitle
 \small{
-GitHub repository:\\ github.com/chysch/Phonetic-Pun-ishment}
+GitHub repository:
+
+github.com/chysch/Phonetic-Pun-ishment}
 
 \hfill
 
@@ -86,7 +88,8 @@ To achieve this purpose we created a phoneme search tree with words for leaves t
 \subsection{Cleaning}
 
 This stage is responsible for cleaning the output of the previous stage, as at this moment we have a long list of new sentences that match a given sentence. They may match this sentence phonetically, but their validity both syntactically and semantically should be tested and invalid sentences should be removed from the list. 
-\\
+
+
 In order to test whether a sentence is valid semantically and syntactically we use some open-source tools. 
 
 \subsubsection{Parsing tree}
@@ -118,8 +121,12 @@ If the 'OnlineMode' os off, the use of the 'Logon' tool is replaced with the use
 \subsubsection{StickyAddSkip}
 
 \section{Results}
-Our results are based on several tests we ran and evaluated, that consist of different puns, i.e., sentences that homophonically may be interpreted as sentences with a different meaning. We used short sentences, as well as long sentences, and sentences with a variety of different types of puns. \\
-In order to evaluate the results, we used a gold file constructed by a human. The comparison between our parsed file and the gold file consisted of counting the false results (both false negatives and false positives), as well as comparing the length of the matches list retrieved by the test and by the gold file, for each sentence.\\
+Our results are based on several tests we ran and evaluated, that consist of different puns, i.e., sentences that homophonically may be interpreted as sentences with a different meaning. We used short sentences, as well as long sentences, and sentences with a variety of different types of puns.
+
+
+In order to evaluate the results, we used a gold file constructed by a human. The comparison between our parsed file and the gold file consisted of counting the false results (both false negatives and false positives), as well as comparing the length of the matches list retrieved by the test and by the gold file, for each sentence.
+
+
 The tests conducted a relatively low rate of false negatives, which means that our model is capable of producing homophonic puns. However, there was a large amount of false positives, due to the lack of efficient and reliable way to filter sentences that do not make sense semantically.
 
 \section{Related Works}
