@@ -200,6 +200,7 @@ Comments:
 ```
 * Keys: Threshold, Sticky, StickyAddSkip, Trunc
 * Threshold value is an integer. It indicates the maximal number of consequent words tested for multiple meaning.
+* OnlineMode can be either 'on' or 'off'. when OnlineMode is 'on' the algorithm uses external sources that require internet connection.
 * Sticky value is None (default), Add, Rem or Both.
 * StickyAddSkip is a list of phonemes seperated by spaces. Only relevant if Sticky is Add or Both.
 * Trunc value is an integer. It indicates the maximal number of matches to find for a sentence.
