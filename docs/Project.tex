@@ -123,6 +123,26 @@ An integer represents the maximal distance allowed between the length of a given
 
 \subsubsection{WordNetFilter}
 
+\section{Challanges}
+
+
+\subsection{Efficient Cleaning}
+\subsubsection{Using online tools}
+
+The Cleaning stage of our model is responsible for removing the matches that are invalid either semantically or syntactically. This task required some research for external tools to validate the sentences, as well as many attempts to integrate those tools and methods into our model, in order to test their contribution. 
+
+The challenges in using an online tool are various. In addition to the large impact on runtime, we are also vulnerable to server errors and to be blocked by servers due to large amount of requests. 
+
+\subsubsection{Semantical validation of a sentence}
+Semantical validation of a sentence is a challenging task since it requires understanding the meaning of a sentence.
+To tackle this task we tried a variety of external online tools that can help determine whether a sentence has a valid meaning.
+
+
+One powerful method that stood out was the Google Search method. A query to Google Search could easily determine whether the sentence is likely to be used (by the amount of results retrieved for it) - and therefore is valid. The obstacle we encountered with this method was the limit on the amount of queries one can execute to Google Search engine, without being blocked by the server. 
+
+Other search engines have the same issue, although this may be solved by purchasing a proportionate package for the Search API usage.
+
+
 \section{Results}
 Our results are based on several tests we ran and evaluated, that consist of different puns, i.e., sentences that homophonically may be interpreted as sentences with a different meaning. We used short sentences, as well as long sentences, and sentences with a variety of different types of puns.
 
@@ -131,6 +151,13 @@ In order to evaluate the results, we used a gold file constructed by a human. Th
 
 
 The tests conducted a relatively low rate of false negatives, which means that our model is capable of producing homophonic puns. However, there was a large amount of false positives, due to the lack of efficient and reliable way to filter sentences that do not make sense semantically.
+
+\section{Conclusions}
+
+\section{Future Work}
+
+\subsection{Validate output sentences semantically}
+This is a part of the Cleaning stage, that removes produced sentences that are invalid semantically or syntactically. As the syntax validation part is being covered with the help of parsing trees analysis, validating semantics of a sentence is a much more complicated task. A need for an efficient tool to detect whether a sentence makes sense, has gradually occurred in the fields of NLP in recent years. The use of statistical techniques is a popular approach and may be used in future work in order to improve the cleaning stage of our project.
 
 \section{Related Works}
 
@@ -141,11 +168,6 @@ Although much work has been done on classification and detection of humor in gen
 Various groups worked on pun detection and understanding. \citet{miller_gurevych_2015} used Word Sense Disambiguation (WSD) to find the meanings of puns in corpora of homographic puns with only two meanings and exactly one pun word per sentence. Later \citet{miller_hempelmann_gurevych_2017} also continued the research comparing various types of WSD to see which method has better success not only disambiguating the puns but also detecting their existance and locating them. Unfortunately, the restrictions they put on their research meant that they were not dealing with homophonic puns.
 
 The closest study we found was done by \citet{jaech_koncel-kedziorski_ostendorf_2016}. They cited various people who classified types of puns and analyzed puns theoretically. Their research was into understanding homophonic puns in sentences where the locations of the puns were already given. Since we are more interested in detecting if a homophonic pun exists and where, that approach was also not enough.
-
-\section{Conclusions and Future Work}
-
-\subsection{Validate output sentences semantically}
-This is a part of the Cleaning stage, that removes produced sentences that are invalid semantically or syntactically. As the syntax validation part is being covered with the help of parsing trees analysis, validating semantics of a sentence is a much more complicated task. A need for an efficient tool to detect whether a sentence makes sense, has gradually occurred in the fields of NLP in recent years. The use of statistical techniques is a popular approach and may be used in future work in order to improve the cleaning stage of our project.
 
 % include your own bib file like this:
 %\bibliographystyle{acl}
