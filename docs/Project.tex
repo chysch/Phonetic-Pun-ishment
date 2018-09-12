@@ -59,13 +59,13 @@ Creative speakers tend occasionally to instill in their words puns and multiple 
 
 \section{Introduction}
 
-Joke detection is one of the hardest problems in the field of artificial intelligence. This is because a joke sometimes rely on not having a totally reasonable meaning, ambiguity in meaning, or exaggeration of reality. As some of these concepts are hard for a machine to recognize like a human mind does, since there is a large amount of data to be considered in order to be able to distinguish between what is a reasonable description of reality and what is not, this project attempts to tackle the ambiguity in meaning as a basis for a joke, and specifically a homophonic multiplicity. We aim to detect such sentences, that are considered as puns, based on their phonetic structure and the sentences that can be derived from it.
+Joke detection is one of the hardest problems in the field of artificial intelligence. This is because a joke sometimes relies on not having a totally reasonable meaning, ambiguity, or exaggeration of reality. These concepts are harder for a machine to recognize than for the human mind, since there is a large amount of data to be considered in order to be able to distinguish between what is a reasonable description of reality and what is not. This project attempts to tackle the ambiguity as a basis for a joke, and specifically a homophonic multiplicity. We aim to detect such sentences, that are considered as puns, based on their phonetic structure and the sentences that can be derived from them.
 
 \section{Method}
 
 In order to find homophonic multiplicity in a sentence we decided to break the project into four stages described below. The stages are in a logical order and are modular and the basic logic is relevant for many languages. There are various features, however, that work only in English, so some of the modules will need to be changed to allow other languages.
 
-We padded the logical core with a variety of hyper-parameters controlled by a rule plain-text file which can be easily created and modified by the user. These will also be described below. The general idea of most of them is weakening the accuracy of the phonetic match to allow more positive results.
+We padded the logical core with a variety of hyper-parameters controlled by a plain-text rule file which can be easily created and modified by the user. These will also be described below. The general idea of most of them is weakening the accuracy of the phonetic match to allow more positive results.
 
 \subsection{Training}
 
@@ -87,38 +87,41 @@ To achieve this purpose we created a phoneme search tree with words for leaves t
 
 \subsection{Cleaning}
 
-This stage is responsible for cleaning the output of the previous stage, as at this moment we have a long list of new sentences that match a given sentence. They may match this sentence phonetically, but their validity both syntactically and semantically should be tested and invalid sentences should be removed from the list. 
-
+This stage is responsible for cleaning the output of the previous stage, since we now have a long list of new sentences that match a given sentence. They may match this sentence phonetically, but their validity both syntactically and semantically should be tested and invalid sentences should be removed from the list. 
 
 In order to test whether a sentence is valid semantically and syntactically we use some open-source tools. 
 
 \subsubsection{Parsing tree}
 In order to test whether a sentence is valid grammatically, we use one of two tools.
-In case our 'Online Mode' is on, the 'Logon' tool \citepalias{the_logon_project} is used to parse a sentence to its derivation tree. This tool help us to indicate whether a sentence is syntactically valid, as in case it doesn't, it retrieves zero parsing trees for the sentence. In case our 'Online Mode' is off, we then use the NLTK library \citepalias{nltk} for python, that performs POS tagging of the sentence, and with its help we know whether the sentence is valid syntactically.
-\subsubsection{Avoid uncommonly used words}
-This filters all produced sentences that use valid English words that are unlikely to be used in an everyday sentence, like acronyms, prefixes, etc.
-\subsubsection{Incorrectness intended?}
-Sometimes a sentence may be invalid semantically but this incorrectness is a part of the intended pun. We wish to determine whether this is the case and avoid removing these kind of sentences. This is why we use the Datamuse tool \citepalias{datamuse} that helps us to determine whether the problematic word of the incorrect sentence is related to any other word in the original sentence. 
+If 'Online Mode' is on, the 'Logon' tool \citepalias{the_logon_project} is used to parse a sentence to its derivation tree. This tool helps us indicate whether a sentence is syntactically valid. If it isn't, it retrieves zero parsing trees for the sentence. If 'Online Mode' is off, we use the NLTK library \citepalias{nltk} for python, that performs POS tagging of the sentence, and with its help we know whether the sentence is valid syntactically.
 
+\subsubsection{Avoid uncommonly used words}
+This filters all produced sentences that use valid English words that are unlikely to be used in an everyday sentence, like acronyms, prefixes and the like.
+
+\subsubsection{Incorrectness intended?}
+Sometimes a sentence may be invalid semantically but this incorrectness is a part of the intended pun. We wish to determine whether this is the case and avoid removing these kind of sentences. This is why we use the Datamuse tool \citepalias{datamuse} that helps us determine whether the problematic word of the incorrect sentence is related to any other word in the original sentence. 
 
 \subsection{Hyper-Parameters}
 
 The rule file required by the user can be empty, but usually will contain values for the hyper-parameters controlling the project. Below the hyper-parameters are listed by name with a short description and motivation.
 
-\subsubsection{Replace}
-
-\subsubsection{WordNetFilter}
-
-\subsubsection{Threshold}
-An integer represents the maximal distance allowed between the length of a given sentence (i.e the number of words in the sentence) and the length of a sentence matched to it phonetically. The bigger this threshold, the stricter is the policy, and matches that differ from the original sentence are dissmissed.
-
 \subsubsection{OnlineMode}
 When 'OnlineMode' is on, the algorithms will use external sources that require active internet connection. This improves the results, but can also extend run-time significantly. Those online resources include the 'Logon' tool mentioned in section 2.4.1, and the 'Datamuse' tool mentioned in section 2.4.3. 
 If the 'OnlineMode' os off, the use of the 'Logon' tool is replaced with the use of NLTK library for Python, and the 'Pun intended' feature from section 2.4.3 is not used.
 
+\subsubsection{Replace}
+In many cases, a word has a number of pronounciations and in some cases two sets of words are similar enough to allow a pun even though their phonetic build is not exactly the same. For example, "A PUN CAN DIE" can be said "A PUNK AND I". The words "PUN CAN" are "P AH N K AH N" phonetically, while the words "PUNK AND" are "P AH NG K AH N D" phonetically. Since the difference between "NG" and "N" are not so great in this case, we found it necessary to make a Replace option available. This option allows substitution of phoneme sets while creating the dictionaries, with the choice given if all matching sets should be replaced or only in the beginning or end of words.
+
 \subsubsection{Sticky}
 
 \subsubsection{StickyAddSkip}
+
+\subsubsection{Threshold}
+An integer represents the maximal distance allowed between the length of a given sentence (i.e the number of words in the sentence) and the length of a sentence matched to it phonetically. The bigger this threshold, the stricter is the policy, and matches that differ from the original sentence are dissmissed.
+
+\subsubsection{WordBound}
+
+\subsubsection{WordNetFilter}
 
 \section{Results}
 Our results are based on several tests we ran and evaluated, that consist of different puns, i.e., sentences that homophonically may be interpreted as sentences with a different meaning. We used short sentences, as well as long sentences, and sentences with a variety of different types of puns.
