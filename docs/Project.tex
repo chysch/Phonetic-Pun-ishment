@@ -113,15 +113,19 @@ If the 'OnlineMode' os off, the use of the 'Logon' tool is replaced with the use
 In many cases, a word has a number of pronounciations and in some cases two sets of words are similar enough to allow a pun even though their phonetic build is not exactly the same. For example, "A PUN CAN DIE" can be said "A PUNK AND I". The words "PUN CAN" are "P AH N K AH N" phonetically, while the words "PUNK AND" are "P AH NG K AH N D" phonetically. Since the difference between "NG" and "N" are not so great in this case, we found it necessary to make a Replace option available. This option allows substitution of phoneme sets while creating the dictionaries, with the choice given if all matching sets should be replaced or only in the beginning or end of words.
 
 \subsubsection{Sticky}
+Sometimes a situation arises that a phoneme which should be said twice is sounded once or vice versa. The sentence "NO IDEA" as an answer to the question "WHAT DO YOU CALL A BLIND DEER?" (in British accent) can sound like "NO EYED DEER", even though "IDEA" has the phoneme "D" only once in contrast to "EYED DEER" which has it twice. To allow for such cases, we added the Sticky option which allows either repetition of a phoneme or removal of such repetitions (or both).
 
 \subsubsection{StickyAddSkip}
+A problem we encountered while using the Sticky parameter was single-phoneme words. When using the Add option which repeats phonemes, it caused an infinite loop of creation of single-phoneme words like "E". One way to deal with this problem was a hard-coded list of phonemes to skip and therefore not repeat. This is relevant in particular for phonemes that one can forsee as impossible to repeat like the phoneme "AW". For example: The combination "HOW OWL" translated as "HH AW AW L" will never be confused with "HOWL" translated as "HH AW L". This is because "AW" is a diphtong, combined of "AH" and "UW" so repetition sounds like "AH UW AH UW".
 
 \subsubsection{Threshold}
 An integer represents the maximal distance allowed between the length of a given sentence (i.e the number of words in the sentence) and the length of a sentence matched to it phonetically. The bigger this threshold, the stricter is the policy, and matches that differ from the original sentence are dissmissed.
 
 \subsubsection{WordBound}
+Like Threshold, this parameter controls the maximum number of words in a pun. An integer is provided which serves as an upper bound to the number of words translated phonetically leaving the rest of the sentence in all matches created identical to the origin.
 
 \subsubsection{WordNetFilter}
+While working with the CMU dictionary we discovered that since it is meant for Speech To Text, it contains many words which are not commonly used in spoken English. This parameter uses NLTK to filter out such words. It is obvious, however, that WordNetFilter is only relevant for English.
 
 \section{Challanges}
 
@@ -133,22 +137,18 @@ The Cleaning stage of our model is responsible for removing the matches that are
 
 The challenges in using an online tool are various. In addition to the large impact on runtime, we are also vulnerable to server errors and to be blocked by servers due to large amount of requests. 
 
-\subsubsection{Semantical validation of a sentence}
-Semantical validation of a sentence is a challenging task since it requires understanding the meaning of a sentence.
+\subsubsection{Semantic validation of a sentence}
+Semantic validation of a sentence is a challenging task since it requires understanding the meaning of a sentence.
 To tackle this task we tried a variety of external online tools that can help determine whether a sentence has a valid meaning.
-
 
 One powerful method that stood out was the Google Search method. A query to Google Search could easily determine whether the sentence is likely to be used (by the amount of results retrieved for it) - and therefore is valid. The obstacle we encountered with this method was the limit on the amount of queries one can execute to Google Search engine, without being blocked by the server. 
 
 Other search engines have the same issue, although this may be solved by purchasing a proportionate package for the Search API usage.
 
-
 \section{Results}
 Our results are based on several tests we ran and evaluated, that consist of different puns, i.e., sentences that homophonically may be interpreted as sentences with a different meaning. We used short sentences, as well as long sentences, and sentences with a variety of different types of puns.
 
-
 In order to evaluate the results, we used a gold file constructed by a human. The comparison between our parsed file and the gold file consisted of counting the false results (both false negatives and false positives), as well as comparing the length of the matches list retrieved by the test and by the gold file, for each sentence.
-
 
 The tests conducted a relatively low rate of false negatives, which means that our model is capable of producing homophonic puns. However, there was a large amount of false positives, due to the lack of efficient and reliable way to filter sentences that do not make sense semantically.
 
