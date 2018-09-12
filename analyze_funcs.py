@@ -45,8 +45,8 @@ def AnalyzeLine(fore_data, line, rules):
     res = []
     res.append(line.rstrip('\n')+'\n')
     thres = 0
-    if 'Threshold' in rules:
-        thres = int(rules['Threshold'])
+    if 'WordBound' in rules:
+        thres = int(rules['WordBound'])
     lst = []
     line = line.rstrip('\n').split(' ')
     l = len(line)
