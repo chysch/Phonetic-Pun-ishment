@@ -47,6 +47,8 @@ def CanPunctuate(orig_sentence, match, length_threshold, listOfCommonWords, pron
     return (IsSyntacticallyValid(match, online_mode) and IsSemanticallyValid(listOfCommonWords, match, pronouns))
 
 def isMatchLengthExceedsThreshold(match, orig_sentence, length_threshold):
+    if (length_threshold < 0):
+        return False
     length_diff = abs(len(match.split(' ')) - len(orig_sentence.split(' ')))
     if length_diff >= length_threshold:
         return True

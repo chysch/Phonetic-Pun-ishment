@@ -14,8 +14,14 @@ def Clean(output, raw, rules):
     rule_lines = rule_file.readlines()
     rule_file.close()
     sent_rules = PrepareRules(rule_lines)[2]
-    length_threshold = int(sent_rules['Threshold'])
-    online_mode = True if sent_rules['OnlineMode'].lower() == 'on' else False
+    if ('Threshold' in sent_rules):
+        length_threshold = int(sent_rules['Threshold'])
+    else:
+        length_threshold = -1
+    if ('OnlineMode' in sent_rules):
+        online_mode = True if sent_rules['OnlineMode'].lower() == 'on' else False
+    else:
+        online_mode = False
 
     raw_file = open(raw, 'r')
     raw_lines = raw_file.readlines()
