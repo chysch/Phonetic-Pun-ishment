@@ -59,7 +59,13 @@ Creative speakers tend occasionally to instill in their words puns and multiple 
 
 \section{Introduction}
 
-Joke detection is one of the harder problems in the natural language understanding. This is because a joke sometimes relies on not having a totally reasonable meaning, ambiguity, or exaggeration of reality. These concepts are harder for a machine to recognize than for the human mind, since there is a large amount of data to be considered in order to be able to distinguish between what is a reasonable description of reality and what is not. This project attempts to tackle the ambiguity as a basis for a joke, and specifically a homophonic multiplicity. We aim to detect such sentences, that are considered as puns, based on their phonetic structure and the sentences that can be derived from them.
+Joke detection is one of the harder problems in the natural language understanding. This is because a joke sometimes relies on ambiguity, exaggeration of reality or not having a totally reasonable meaning. These concepts are harder for a machine to recognize than for the human mind, since there is a large amount of data to be considered in order to be able to distinguish between what is a reasonable description of reality and what is not.
+
+Puns in particular have various characteristics that complicate their detection. A pun can be caused by implications derived from alternate definitions of a word - a type of pun referred to as homographic. Understanding and detecting that type of pun require knowledge of word meanings and ways to undertand situations and contexts. A pun can also be caused by mutiplicity derived from the sound of the words said. That type of pun we call homophinic. Apart from the afore-mentioned capabilities, this type of pun requires also phonetic analysis abilities.
+
+Since jokes and puns are frequently used in casual discourse and pose a big challenge to those trying to understand the intention of writers or speakers, the subject has been subject to a large amount of study. This area is especially interesting because lack of humor is one of the most notorious traits of robots and an obstacle researchers interested in humanifying robots will have to overcome.
+
+This project attempts to tackle the problem of intelligible homophonic multiplicity detection. We aim to detect sentences that contain homophonic puns based on their phonetic structure and discover alternative sentences that can be derived from them.
 
 \section{Method}
 
@@ -179,7 +185,7 @@ The tests conducted a relatively low rate of false negatives, which means that o
 Many puns rely on inventing a non-existing word that is composed of two parts relevant to the pun. As this project relies on the words used existing in the dictionary it cannot detect such puns even though they are fully homophonic. A future project could try to study such puns and find ways of detecting them.
 
 \subsection{Validate Output Sentences Semantically}
-This is a part of the Cleaning stage, that removes produced sentences that are invalid semantically or syntactically. As the syntax validation part is being covered with the help of parsing trees analysis, validating semantics of a sentence is a much more complicated task. A need for an efficient tool to detect whether a sentence makes sense, has gradually occurred in the fields of NLP in recent years. The use of statistical techniques is a popular approach and may be used in future work in order to improve the cleaning stage of our project.
+This is a part of the Cleaning stage, that removes produced sentences that are invalid semantically or syntactically. As the syntax validation part is being covered with the help of parsing tree analysis, validating semantics of a sentence is a much more complicated task. A need for an efficient tool to detect whether a sentence makes sense has gradually intensified in the fields of NLP in recent years. The use of statistical techniques is a popular approach and may be used in future work in order to improve the cleaning stage of our project.
 
 \subsection{Fix the Sticky Problem}
 The solution presented for the infinite loop caused by single-phoneme words in the Sticky parameter is only a patch because it skips some phonemes which could actually be repeated or omitted. A future project could try to find a proper solution to the problem.
