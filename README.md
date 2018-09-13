@@ -33,10 +33,6 @@ In the command line in the Python directory write the following command:
 ```
 python -n pip install nltk
 ```
-In the Python interpreter write for each library necessary a download command, for example:
-```
->>> nltk.download('punkt')
-```
 
 [Back to table of contents](#table-of-contents)
 ### Running the Project
