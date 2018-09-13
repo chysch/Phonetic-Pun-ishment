@@ -51,7 +51,7 @@ def AnalyzeLine(fore_data, line, rules):
     line = line.rstrip('\n').split(' ')
     l = len(line)
     border = l-thres+1
-    if border <= 0:
+    if border <= 0 or thres <= 0:
         lst = GetPhonMatchList(fore_data, line, 0, '')
     else:
         for i in range(0,border):
