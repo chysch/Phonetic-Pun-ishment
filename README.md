@@ -33,6 +33,12 @@ In the command line in the Python directory write the following command:
 ```
 python -m pip install nltk
 ```
+### Installing Numpy
+In the command line in the Python directory write the following command:
+```
+pip3 install numpy
+```
+Note: Syntax may vary between versions
 
 [Back to table of contents](#table-of-contents)
 ### Running the Project
