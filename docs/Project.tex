@@ -182,6 +182,22 @@ In order to evaluate the results, we used a gold file constructed by a human. Th
 
 The tests conducted a relatively low rate of false negatives, which means that our model is capable of producing homophonic puns. However, there was a large amount of false positives, due to the lack of efficient and reliable way to filter sentences that do not make sense semantically.
 
+\subsection{Baseline Comparison}
+The baseline of our model consisted simply of an empty rule file, i.e., without any hyper-parameters. 
+
+The result of the baseline compared to our best set of results, had a significantly larger amount of false positives, and no difference for the false negative amount.
+
+Other that counting the false positives and false negatives, we evaluate our results by comparing the length of the list of matched sentences, for a given sentence, and consider this ratio as the score for this sentence. Therefore, we aim for this ratio to be as close as can be to the value 1. 
+
+The baseline score was 98, while the score for our best set of results was 12.
+
+In addition to  the calculations mentioned above, we also calculate an 'Accuracy score' which is calculated in the following way:
+
+\[\ 100(1 - \frac{\frac{num\:of\:false\:negatives}{num\:of\:results\:in\:gold\:file} + \frac{num\:of\:false\:positives}{num\:of\:results\:in\:test\:file}}{2})\]
+
+The accuracy score for the baseline was 42, while the accuracy score for our best set of results was 45.
+
+
 \section{Conclusions}
 
 We set ourselves a very ambitious task. Even though the synthesis of homophonic matches in itself is no great challenge, creating the matches so that they cover even just the most common types of homophonic puns requires a great deal of additional work, and filtering the list of matches efficiently and effectively is no joke.
