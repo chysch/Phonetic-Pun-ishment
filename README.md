@@ -31,7 +31,7 @@ Go to the website https://www.python.org/ and download and install the latest ve
 ### Installing NLTK
 In the command line in the Python directory write the following command:
 ```
-python -n pip install nltk
+python -m pip install nltk
 ```
 
 [Back to table of contents](#table-of-contents)
