@@ -105,14 +105,14 @@ The output here is similar to the previous stage except the list of matches shou
 
 In order to test whether a sentence is valid semantically and syntactically we use some open-source tools. 
 
-\subsubsection{Parsing tree}
+\subsubsection{Parsing Tree}
 In order to test whether a sentence is valid grammatically, we use one of two tools.
 If 'Online Mode' is on, the 'Logon' tool \citepalias{the_logon_project} is used to parse a sentence to its derivation tree. This tool helps us indicate whether a sentence is syntactically valid. If it isn't, it retrieves zero parsing trees for the sentence. If 'Online Mode' is off, we use the NLTK library \citepalias{nltk} for python, that performs POS tagging of the sentence, and with its help we know whether the sentence is valid syntactically.
 
-\subsubsection{Avoid uncommonly used words}
+\subsubsection{Avoid Uncommonly Used Words}
 This filters all produced sentences that use valid English words that are unlikely to be used in an everyday sentence, like acronyms, prefixes and the like.
 
-\subsubsection{Incorrectness intended?}
+\subsubsection{Incorrectness Intended?}
 Sometimes a sentence may be invalid semantically but this incorrectness is a part of the intended pun. We wish to determine whether this is the case and avoid removing these kind of sentences. This is why we use the Datamuse tool \citepalias{datamuse} that helps us determine whether the problematic word of the incorrect sentence is related to any other word in the original sentence. 
 
 \subsection{Hyper-Parameters}
@@ -168,6 +168,9 @@ One powerful method that stood out was the Google Search method. A query to Goog
 
 Other search engines have the same issue, although this may be solved by purchasing a proportionate package for the Search API usage.
 
+\subsection{Gold Mining}
+Creation of a gold file in this context is also no small deal. Throughout the project we discovered that even when we had a particular pun intended, the phonetic structure of a sentence could lead to many possibilities we hadn't considered, many of which given the correct context would work as puns. We created basic gold files according to the possibilities which seemed right to us on occasion, but a complete study cannot be done without a large group of clever and creative people looking over the data and determining which possibilities really cannot be puns.
+
 \section{Results}
 Our results are based on several tests we ran and evaluated, that consist of different puns, i.e., sentences that homophonically may be interpreted as sentences with a different meaning. We used short sentences, as well as long sentences, and sentences with a variety of different types of puns.
 
@@ -177,7 +180,9 @@ The tests conducted a relatively low rate of false negatives, which means that o
 
 \section{Conclusions}
 
+We set ourselves a very ambitious task. Even though the synthesis of homophonic matches in itself is no great challenge, creating the matches so that they cover even just the most common types of homophonic puns requires a great deal of additional work, and filtering the list of matches efficiently and effectively is no joke.
 
+We found the work intriguing and fascinating. We discovered many types of puns we hadn't previously considered and various problems that must be solved for the job to be done well. Through trial and error with the phoneme search tree we had hands-on experience with the efficiency advantages of depth-style searching with a stack as opposed to breadth-style searching with a queue, and the major efficiency deficits using recursion instead. While working on the filtering stage we learned about the problems using third party tools and online one in particular. When trying to evaluate our work we came in contact with the intricateness of distinguishing between puns and nonsensical homophonic matches. Viewing our output files showed us that using a dictionary for phonetic matching can be a serious overkill when the expected output is a pun that can be used in casual discussion.
 
 \section{Future Work}
 
@@ -191,7 +196,7 @@ This is a part of the Cleaning stage, that removes produced sentences that are i
 The solution presented for the infinite loop caused by single-phoneme words in the Sticky parameter is only a patch because it skips some phonemes which could actually be repeated or omitted. A future project could try to find a proper solution to the problem.
 
 \subsection{Contextual Approach}
-The test files we worked with are composed of out-of-context sentences. An important feature of many puns is their context and setting. A future project could study the effects of context and how to take advantage of them.
+The test files we worked with are composed of out-of-context sentences. An important feature of many puns is their context and setting. A future project could study the effects of context and how to take advantage of them. In fact, context is not the only consideration that is required: Age and gender can be very influential on usage and understanding of puns and also other subjective characteristics. These should be taken into account as well in the research.
 
 \subsection{Integrated Puns}
 In this project we only dealt with ready stand-alone sentences as test data. An important improvment for future work is pun searching in paragraphs or even online pun detection during discourse with a user. It is important to note that this improvment is related very closely to the Contextual Approach described previously.
