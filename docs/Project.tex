@@ -171,32 +171,30 @@ Other search engines have the same issue, although this may be solved by purchas
 \subsection{Gold Mining}
 Creation of a gold file in this context is also no small deal. Throughout the project we discovered that even when we had a particular pun intended, the phonetic structure of a sentence could lead to many possibilities we hadn't considered, many of which given the correct context would work as puns. We created basic gold files according to the possibilities which seemed right to us on occasion, but a complete study cannot be done without a large group of clever and creative people looking over the data and determining which possibilities really cannot be puns.
 
-\subsection{Context-related puns}
-Another challenge was the treatment of sentences that could be considered as puns in a specific context only. As our model addressed each sentence as a 'stand alone', we could not take the context of the sentence in consideration, and this added to the challenge of determining whether a given match would work a a pun.
-
+\subsection{Context-Related Puns}
+Another challenge was the treatment of sentences that could be considered as puns in a specific context only. As our model addressed each sentence as a 'stand alone', we could not take the context of the sentence in consideration, and this added to the challenge of determining whether a given match would work as a pun.
 
 \section{Results}
-Our results are based on several tests we ran and evaluated, that consist of different puns, i.e., sentences that homophonically may be interpreted as sentences with a different meaning. We used short sentences, as well as long sentences, and sentences with a variety of different types of puns.
+Our results are based on several tests we ran and evaluated that contain sentences that homophonically may be interpreted as sentences with a different meaning. We used short sentences, as well as long sentences, and sentences with a variety of different types of puns.
 
 In order to evaluate the results, we used a gold file constructed by a human. The comparison between our parsed file and the gold file consisted of counting the false results (both false negatives and false positives), as well as comparing the length of the matches list retrieved by the test and by the gold file, for each sentence.
 
 The tests conducted a relatively low rate of false negatives, which means that our model is capable of producing homophonic puns. However, there was a large amount of false positives, due to the lack of efficient and reliable way to filter sentences that do not make sense semantically.
 
 \subsection{Baseline Comparison}
-The baseline of our model consisted simply of an empty rule file, i.e., without any hyper-parameters. 
+The baseline of our model consisted simply of an empty rule file -- a rule file without any hyper-parameters. In essence this means that we ran the test file with all hyper-parameters in their default values.
 
-The result of the baseline compared to our best set of results, had a significantly larger amount of false positives, and no difference for the false negative amount.
+The result of the baseline compared to our best set of results had a significantly larger amount of false positives, and no difference for the false negative amount.
 
-Other that counting the false positives and false negatives, we evaluate our results by comparing the length of the list of matched sentences, for a given sentence, and consider this ratio as the score for this sentence. Therefore, we aim for this ratio to be as close as can be to the value 1. 
+Other than counting the false positives and false negatives, we evaluate our results by comparing the length of the list of matched sentences, for a given sentence, and consider this ratio as the score for this sentence. Therefore, we aim for this ratio to be as close as can be to the value 1. 
 
 The baseline score was 98, while the score for our best set of results was 12.
 
-In addition to  the calculations mentioned above, we also calculate an 'Accuracy score' which is calculated in the following way:
+In addition to the calculations mentioned above, we also calculate an 'Accuracy Score' which is calculated in the following way:
 
 \[\ 100(1 - \frac{\frac{num\:of\:false\:negatives}{num\:of\:results\:in\:gold\:file} + \frac{num\:of\:false\:positives}{num\:of\:results\:in\:test\:file}}{2})\]
 
 The accuracy score for the baseline was 42, while the accuracy score for our best set of results was 45.
-
 
 \section{Conclusions}
 
